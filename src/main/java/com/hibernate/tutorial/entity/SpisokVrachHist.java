@@ -10,6 +10,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -39,12 +41,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SpisokVrachHist.findByDokt", query = "SELECT s FROM SpisokVrachHist s WHERE s.dokt = :dokt"),
     @NamedQuery(name = "SpisokVrachHist.findByDateVn", query = "SELECT s FROM SpisokVrachHist s WHERE s.dateVn = :dateVn"),
     @NamedQuery(name = "SpisokVrachHist.findByDateUv", query = "SELECT s FROM SpisokVrachHist s WHERE s.dateUv = :dateUv"),
-    @NamedQuery(name = "SpisokVrachHist.findByDateRed", query = "SELECT s FROM SpisokVrachHist s WHERE s.dateRed = :dateRed")})
+    @NamedQuery(name = "SpisokVrachHist.findByDateRed", query = "SELECT s FROM SpisokVrachHist s WHERE s.dateRed = :dateRed"),
+    @NamedQuery(name = "SpisokVrachHist.findById", query = "SELECT s FROM SpisokVrachHist s WHERE s.id = :id")})
 public class SpisokVrachHist implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
     @Column(name = "IDDOKT")
     private Integer iddokt;
     @Column(name = "LPUKOD")
@@ -70,6 +71,11 @@ public class SpisokVrachHist implements Serializable {
     @Column(name = "DATE_RED")
     @Temporal(TemporalType.DATE)
     private Date dateRed;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ID")
+    private Integer id;
     @JoinColumn(name = "PRVS", referencedColumnName = "RECID")
     @ManyToOne
     private SkV015 prvs;
@@ -77,8 +83,8 @@ public class SpisokVrachHist implements Serializable {
     public SpisokVrachHist() {
     }
 
-    public SpisokVrachHist(Integer iddokt) {
-        this.iddokt = iddokt;
+    public SpisokVrachHist(Integer id) {
+        this.id = id;
     }
 
     public Integer getIddokt() {
@@ -169,6 +175,14 @@ public class SpisokVrachHist implements Serializable {
         this.dateRed = dateRed;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public SkV015 getPrvs() {
         return prvs;
     }
@@ -180,7 +194,7 @@ public class SpisokVrachHist implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (iddokt != null ? iddokt.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -191,7 +205,7 @@ public class SpisokVrachHist implements Serializable {
             return false;
         }
         SpisokVrachHist other = (SpisokVrachHist) object;
-        if ((this.iddokt == null && other.iddokt != null) || (this.iddokt != null && !this.iddokt.equals(other.iddokt))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -199,7 +213,7 @@ public class SpisokVrachHist implements Serializable {
 
     @Override
     public String toString() {
-        return "com.hibernate.tutorial.entity.SpisokVrachHist[ iddokt=" + iddokt + " ]";
+        return "com.hibernate.tutorial.entity.SpisokVrachHist[ id=" + id + " ]";
     }
     
 }

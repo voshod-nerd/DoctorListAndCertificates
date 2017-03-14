@@ -7,6 +7,7 @@ package com.hibernate.tutorial.ui;
 
 import com.hibernate.tutorial.config.SpringContext;
 import com.hibernate.tutorial.entity.SpisokVrach;
+import com.hibernate.tutorial.entity.SpisokVrachHist;
 import com.hibernate.tutorial.service.HibernateMain;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,7 @@ public class EditDoctorJDialog extends javax.swing.JDialog {
         frame = (MainFrame) parent;
 
         SpisokVrach doctor = frame.getSelectedDoctor();
+
         if (doctor.getIddokt() != null) {
             jTextFieldIdDoct.setText(doctor.getIddokt().toString());
         }
@@ -242,40 +244,64 @@ public class EditDoctorJDialog extends javax.swing.JDialog {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
-        SpisokVrach doctor = new SpisokVrach();  
+        SpisokVrach doctor = new SpisokVrach();
         if (!jTextFieldIdDoct.getText().equals("")) {
-            
-            
-          
+
             doctor.setPrvs(frame.getSelectedDoctor().getPrvs());
             doctor.setIddokt(Integer.parseInt(jTextFieldIdDoct.getText()));
-            if (!jTextFieldOtd.getText().equals("")) doctor.setIdOtd(Integer.parseInt(jTextFieldOtd.getText()));
-            if (!jTextFieldLpu.getText().equals("")) doctor.setLpukod(Integer.parseInt(jTextFieldLpu.getText()));
-            if (!jTextFieldPodr.getText().equals("")) doctor.setIdPodr(Integer.parseInt(jTextFieldPodr.getText()));
-            if (!jTextFieldFam.getText().equals("")) doctor.setFam(jTextFieldFam.getText());
-            if (!jTextFieldIm.getText().equals("")) doctor.setIm(jTextFieldIm.getText());
-            if (!jTextFieldOt.getText().equals("")) doctor.setOt(jTextFieldOt.getText());
+            if (!jTextFieldOtd.getText().equals("")) {
+                doctor.setIdOtd(Integer.parseInt(jTextFieldOtd.getText()));
+            }
+            if (!jTextFieldLpu.getText().equals("")) {
+                doctor.setLpukod(Integer.parseInt(jTextFieldLpu.getText()));
+            }
+            if (!jTextFieldPodr.getText().equals("")) {
+                doctor.setIdPodr(Integer.parseInt(jTextFieldPodr.getText()));
+            }
+            if (!jTextFieldFam.getText().equals("")) {
+                doctor.setFam(jTextFieldFam.getText());
+            }
+            if (!jTextFieldIm.getText().equals("")) {
+                doctor.setIm(jTextFieldIm.getText());
+            }
+            if (!jTextFieldOt.getText().equals("")) {
+                doctor.setOt(jTextFieldOt.getText());
+            }
             doctor.setDokt(jCheckBox1.isSelected());
-            if (jDateChooser1.getDate()!=null) doctor.setDateVn(jDateChooser1.getDate());
-            if (jDateChooser2.getDate()!=null) doctor.setDateUv(jDateChooser2.getDate()); 
-            
+            if (jDateChooser1.getDate() != null) {
+                doctor.setDateVn(jDateChooser1.getDate());
+            }
+            if (jDateChooser2.getDate() != null) {
+                doctor.setDateUv(jDateChooser2.getDate());
+            }
+
             List<SpisokVrach> list = new ArrayList<>();
             list.add(doctor);
             hiber.UpdateSpisokVrach(list);
-             this.dispose();
+            SpisokVrachHist oldDoctor = new SpisokVrachHist();
+            oldDoctor.setIddokt(frame.getSelectedDoctor().getIddokt());
+            oldDoctor.setLpukod(frame.getSelectedDoctor().getLpukod());
+            oldDoctor.setIdPodr(frame.getSelectedDoctor().getIdPodr());
+            oldDoctor.setIdOtd(frame.getSelectedDoctor().getIdOtd());
+            oldDoctor.setFam(frame.getSelectedDoctor().getFam());
+            oldDoctor.setIm(frame.getSelectedDoctor().getIm());
+            oldDoctor.setOt(frame.getSelectedDoctor().getOt());
+            oldDoctor.setDokt(frame.getSelectedDoctor().getDokt());
+            oldDoctor.setPrvs(frame.getSelectedDoctor().getPrvs());
+            oldDoctor.setDateVn(frame.getSelectedDoctor().getDateVn());
+            oldDoctor.setDateUv(frame.getSelectedDoctor().getDateUv());
+            hiber.InsertSpisokVrachHist(oldDoctor);
+
+            this.dispose();
         } else {
-        JFrame frame = new JFrame("Сообщение");
+            JFrame frame = new JFrame("Сообщение");
             JOptionPane.showMessageDialog(frame,
                     "Вы не выбрали специальность"
-                    );
-        
+            );
+
         }
-       
-        
-       
-       
-        
-        
+
+
     }//GEN-LAST:event_jButton1MouseClicked
 
     /**

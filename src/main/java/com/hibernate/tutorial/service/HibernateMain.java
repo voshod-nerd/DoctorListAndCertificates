@@ -3,9 +3,11 @@ package com.hibernate.tutorial.service;
 import com.hibernate.tutorial.dao.SertifDAO;
 import com.hibernate.tutorial.dao.SkV015DAO;
 import com.hibernate.tutorial.dao.SpisokVrachDAO;
+import com.hibernate.tutorial.dao.SpisokVrachHistDAO;
 import com.hibernate.tutorial.entity.Sertif;
 import com.hibernate.tutorial.entity.SkV015;
 import com.hibernate.tutorial.entity.SpisokVrach;
+import com.hibernate.tutorial.entity.SpisokVrachHist;
 
 
 import java.util.List;
@@ -28,10 +30,19 @@ public class HibernateMain {
     
     @Autowired
     private SkV015DAO spisokSkV015Repository;
+    
+    @Autowired
+    private SpisokVrachHistDAO spisokVrachHistRepository;
 
     public List<Sertif> getSertifAll() {
         return sertifRep.getAllSertif();
     }
+    
+    
+    public void InsertSpisokVrachHist(SpisokVrachHist value) {
+    spisokVrachHistRepository.create(value);
+    }
+    
     
     public void UpdateSpisokVrach(List<SpisokVrach> list){
     for (SpisokVrach x :list) {
@@ -49,7 +60,7 @@ public class HibernateMain {
         return spisokSkV015Repository.getAllSkV015();
     }
     
-    public boolean InputDoctorToDB(SpisokVrach value) {
+    public boolean InsertSpisokVrach(SpisokVrach value) {
     spisokVrachRepository.save(value);
     return true;
     }

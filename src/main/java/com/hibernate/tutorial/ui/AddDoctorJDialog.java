@@ -240,7 +240,7 @@ public class AddDoctorJDialog extends javax.swing.JDialog {
             if (chosePrvs!= null) {
             vrach.setPrvs(chosePrvs);}
             
-            hiber.InputDoctorToDB(vrach);
+            hiber.InsertSpisokVrach(vrach);
             dispose();
         } catch (Exception er) {
             JFrame frame = new JFrame("Ошибка ввода");
