@@ -23,16 +23,19 @@ public class SpisokVrachHistDAOImpl implements SpisokVrachHistDAO {
     @Autowired
     private SessionFactory sessionFactory;
     
+    @Override
     public void save(SpisokVrachHist value) {
          Session session = this.getSessionFactory().getCurrentSession();
 		session.persist(value);
     }
 
+    @Override
     public void update(SpisokVrachHist value) {
          Session session = this.getSessionFactory().getCurrentSession();
 		session.update(value);
     }
 
+    @Override
     public void delete(SpisokVrachHist value) {
         Session session = this.getSessionFactory().getCurrentSession();
 		SpisokVrachHist p = (SpisokVrachHist) session.load(SpisokVrachHist.class, value.getIddokt());
@@ -41,6 +44,7 @@ public class SpisokVrachHistDAOImpl implements SpisokVrachHistDAO {
 		}
     }
 
+    @Override
     public List<SpisokVrachHist> getAllSpisokVrachHist() {
          Session session = this.getSessionFactory().getCurrentSession();
 		List<SpisokVrachHist> list = session.createQuery("from SpisokVrachHist").list();
@@ -48,10 +52,9 @@ public class SpisokVrachHistDAOImpl implements SpisokVrachHistDAO {
 		return list;
     }
 
-    public SpisokVrachHist create(SpisokVrachHist value) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
 
+    @Override
     public SpisokVrachHist findByIddokt(int value) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

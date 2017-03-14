@@ -40,7 +40,7 @@ public class HibernateMain {
     
     
     public void InsertSpisokVrachHist(SpisokVrachHist value) {
-    spisokVrachHistRepository.create(value);
+    spisokVrachHistRepository.save(value);
     }
     
     

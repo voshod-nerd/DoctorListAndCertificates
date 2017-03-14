@@ -14,11 +14,11 @@ import java.util.List;
  * @author 
  */
 public interface SpisokVrachHistDAO {
-      void save(SpisokVrachHist stock);
+        void save(SpisokVrachHist stock);
 	void update(SpisokVrachHist value);
 	void delete(SpisokVrachHist value);
         List<SpisokVrachHist> getAllSpisokVrachHist();
-        SpisokVrachHist create(SpisokVrachHist value);
+       
         
 	SpisokVrachHist findByIddokt(int value);
 }
