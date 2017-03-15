@@ -12,27 +12,28 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
 /**
  *
  * @author Талалаев
  */
-public class SertifTableModel implements TableModel {
+public class SerificateTableModel  extends AbstractTableModel {
 
     private Set<TableModelListener> listeners = new HashSet<TableModelListener>();
 
-    private List<Sertif> listSertif;
+    private List<Sertif> listSertificates;
     
     
-     public SertifTableModel(List<Sertif> listSertif) {
+     public SerificateTableModel(List<Sertif> listSertif) {
         super();
-        this.listSertif = listSertif;
+        this.listSertificates = listSertif;
     }
 
     @Override
     public int getRowCount() {
-        return listSertif.size();
+        return listSertificates.size();
     }
 
     @Override
@@ -40,6 +41,10 @@ public class SertifTableModel implements TableModel {
         return 7;
     }
     
+      public Sertif getRowByIndex(int rowIndex) {
+        return listSertificates.get(rowIndex);
+
+    }
     
     
 
@@ -94,7 +99,7 @@ public class SertifTableModel implements TableModel {
     }
 
     public Object getValueAt(int rowIndex, int columnIndex) {
-       Sertif sertif = listSertif.get(rowIndex);
+       Sertif sertif = listSertificates.get(rowIndex);
         switch (columnIndex) {
             case 0:
                 return sertif.getNSert();

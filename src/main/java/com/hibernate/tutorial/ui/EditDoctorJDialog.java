@@ -291,7 +291,8 @@ public class EditDoctorJDialog extends javax.swing.JDialog {
             oldDoctor.setDateVn(frame.getSelectedDoctor().getDateVn());
             oldDoctor.setDateUv(frame.getSelectedDoctor().getDateUv());
             hiber.InsertSpisokVrachHist(oldDoctor);
-
+            
+            frame.UpdateTableSpisokVrach();
             this.dispose();
         } else {
             JFrame frame = new JFrame("Сообщение");

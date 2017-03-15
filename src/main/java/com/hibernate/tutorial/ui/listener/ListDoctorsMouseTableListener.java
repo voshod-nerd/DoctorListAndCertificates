@@ -17,7 +17,7 @@ import javax.swing.JTable;
  *
  * @author Талалаев
  */
-public class JExampleMouseTableListener extends MouseAdapter {
+public class ListDoctorsMouseTableListener extends MouseAdapter {
     
     private MainFrame frame;
     
@@ -25,7 +25,7 @@ public class JExampleMouseTableListener extends MouseAdapter {
     
     
     
-    public  JExampleMouseTableListener(MainFrame fr){
+    public  ListDoctorsMouseTableListener(MainFrame fr){
     this.frame=fr;
     }
    

@@ -5,6 +5,7 @@
  */
 package com.hibernate.tutorial.ui;
 
+import com.hibernate.tutorial.app.interfaces.SetGetSkv015;
 import com.hibernate.tutorial.config.SpringContext;
 import com.hibernate.tutorial.entity.SkV015;
 import com.hibernate.tutorial.entity.SpisokVrach;
@@ -21,11 +22,11 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  *
  * @author
  */
-public class AddDoctorJDialog extends javax.swing.JDialog {
+public class AddDoctorJDialog extends javax.swing.JDialog implements SetGetSkv015 {
 
     private HibernateMain hiber;
     private ApplicationContext context;
-    private SkV015 chosePrvs;
+    private SkV015 chosenPrvs;
 
     /**
      * Creates new form AddDoctorJDialog
@@ -123,6 +124,11 @@ public class AddDoctorJDialog extends javax.swing.JDialog {
         });
 
         jAddPrvsButton.setText("¬ыбрать специальность");
+        jAddPrvsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jAddPrvsButtonActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("* почечены об€зательные пол€");
 
@@ -237,8 +243,8 @@ public class AddDoctorJDialog extends javax.swing.JDialog {
 
             vrach.setDokt(jDoctCheckBox.isSelected());
             
-            if (chosePrvs!= null) {
-            vrach.setPrvs(chosePrvs);}
+            if (getChosenPrvs()!= null) {
+            vrach.setPrvs(getChosenPrvs());}
             
             hiber.InsertSpisokVrach(vrach);
             dispose();
@@ -250,6 +256,10 @@ public class AddDoctorJDialog extends javax.swing.JDialog {
 
 
     }//GEN-LAST:event_jSaveButtonMouseClicked
+
+    private void jAddPrvsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddPrvsButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jAddPrvsButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -323,6 +333,13 @@ public class AddDoctorJDialog extends javax.swing.JDialog {
      * @param chosenPrvs the chosenPrvs to set
      */
     public void setChosenPrvs(SkV015 chosenPrvs) {
-        this.chosePrvs = chosenPrvs;
+        this.chosenPrvs = chosenPrvs;
+    }
+
+    /**
+     * @return the chosenPrvs
+     */
+    public SkV015 getChosenPrvs() {
+        return chosenPrvs;
     }
 }

@@ -5,6 +5,7 @@
  */
 package com.hibernate.tutorial.ui;
 
+import com.hibernate.tutorial.app.interfaces.SetGetSkv015;
 import com.hibernate.tutorial.config.SpringContext;
 import com.hibernate.tutorial.service.HibernateMain;
 import org.springframework.context.ApplicationContext;
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import java.util.List;
 import com.hibernate.tutorial.entity.SkV015;
 import com.hibernate.tutorial.ui.model.PrvsTableModel;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -33,7 +35,7 @@ public class ChosePrvsDialog extends javax.swing.JDialog {
     private ApplicationContext context;
     private PrvsTableModel tablemodel;
     private TableRowSorter<PrvsTableModel> sorter;
-    private AddDoctorJDialog parent;
+    private JDialog parent;
     private SkV015 chosenPrvs;
 
     /**
@@ -42,7 +44,7 @@ public class ChosePrvsDialog extends javax.swing.JDialog {
     public ChosePrvsDialog(java.awt.Dialog parent, boolean modal) {
 
         super(parent, modal);
-        this.parent = (AddDoctorJDialog) parent;
+        //parent = (java.awt.Dialog)parent;
 
         context = new AnnotationConfigApplicationContext(SpringContext.class);
         hiber = (HibernateMain) context.getBean("HibernateMain");
@@ -66,7 +68,7 @@ public class ChosePrvsDialog extends javax.swing.JDialog {
                             = jTable1.convertRowIndexToModel(viewRow);
                     setChosenPrvs(tablemodel.getRowByIndex(modelRow));
                     
-                    AddDoctorJDialog p = (AddDoctorJDialog) parent;
+                    SetGetSkv015 p = (SetGetSkv015) parent;
                     p.setChosenPrvs(tablemodel.getRowByIndex(modelRow));
                     statusText.setText(
                             String.format("Selected Row in view: %d. "
@@ -171,6 +173,11 @@ public class ChosePrvsDialog extends javax.swing.JDialog {
                 ChooseButtonMouseClicked(evt);
             }
         });
+        ChooseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChooseButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -228,6 +235,12 @@ public class ChosePrvsDialog extends javax.swing.JDialog {
       
         
     }//GEN-LAST:event_formWindowClosing
+
+    private void ChooseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChooseButtonActionPerformed
+        // TODO add your handling code here:
+        
+        
+    }//GEN-LAST:event_ChooseButtonActionPerformed
 
     /**
      * @param args the command line arguments

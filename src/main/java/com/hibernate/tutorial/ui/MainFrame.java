@@ -11,9 +11,10 @@ import com.hibernate.tutorial.entity.SkV015;
 import com.hibernate.tutorial.entity.SpisokVrach;
 import com.hibernate.tutorial.service.HibernateMain;
 import com.hibernate.tutorial.ui.listener.JAddDoctorMouseListener;
-import com.hibernate.tutorial.ui.model.SertifTableModel;
+import com.hibernate.tutorial.ui.model.SerificateTableModel;
 import com.hibernate.tutorial.ui.model.SpisokVrachTableModel;
-import com.hibernate.tutorial.ui.listener.JExampleMouseTableListener;
+import com.hibernate.tutorial.ui.listener.ListDoctorsMouseTableListener;
+import com.hibernate.tutorial.ui.listener.ListSertificatesMouseTableListener;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import javax.swing.Box;
@@ -53,12 +54,12 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private TableRowSorter<SpisokVrachTableModel> sorterVr;
-    private TableRowSorter<SertifTableModel> sorterSertif;
+    private TableRowSorter<SerificateTableModel> sorterSertif;
     private JTextField filterText;
-    private TableModel doctorTableModel;
-    private TableModel sertifTableModel;
+    private SpisokVrachTableModel doctorTableModel;
+    private SerificateTableModel sertificateTableModel;
     private SpisokVrach selectedDoctor;
-    
+    private Sertif selectedSertificate;
 
     /**
      * Creates new form MainFrame
@@ -70,19 +71,20 @@ public class MainFrame extends javax.swing.JFrame {
 
         doctorTableModel = new SpisokVrachTableModel(hiber.getSpisokVrach());
         tblSpisokVrach = new JTable(doctorTableModel);
-        sertifTableModel = new SertifTableModel(hiber.getSertifAll());
-        tblSertif = new JTable(sertifTableModel);
+        sertificateTableModel = new SerificateTableModel(hiber.getSertifAll());
+        tblSertif = new JTable(sertificateTableModel);
 
         //Create a table with a sorter.
         sorterVr = new TableRowSorter<>((SpisokVrachTableModel) doctorTableModel);
         tblSpisokVrach.setRowSorter(sorterVr);
-        sorterSertif = new TableRowSorter<>((SertifTableModel) sertifTableModel);
+        sorterSertif = new TableRowSorter<>((SerificateTableModel) sertificateTableModel);
         tblSertif.setRowSorter(sorterSertif);
 
         tblSpisokVrach.setSize(new Dimension(900, 150));
         tblSertif.setSize(new Dimension(900, 150));
 
-        tblSpisokVrach.addMouseListener(new JExampleMouseTableListener(this));
+        tblSpisokVrach.addMouseListener(new ListDoctorsMouseTableListener(this));
+        tblSertif.addMouseListener(new ListSertificatesMouseTableListener(this));
 
         //Create the menu bar.
         jMenuBar1 = new JMenuBar();
@@ -150,9 +152,9 @@ public class MainFrame extends javax.swing.JFrame {
                     //statusText.setText("");
                 } else {
                     int modelRow = tblSpisokVrach.convertRowIndexToModel(viewRow);
-                    SpisokVrachTableModel  model;
-                    model = (SpisokVrachTableModel)doctorTableModel;
-                    
+                    SpisokVrachTableModel model;
+                    model = (SpisokVrachTableModel) doctorTableModel;
+
                     SpisokVrach value = model.getRowByIndex(modelRow);
                     setSelectedDoctor(value);
                     newFilterSertif(value);
@@ -160,6 +162,26 @@ public class MainFrame extends javax.swing.JFrame {
             }
         }
         );
+        // selection ome of list of certificate 
+        tblSertif.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent event) {
+                int viewRow = tblSertif.getSelectedRow();
+                if (viewRow < 0) {
+                    //Selection got filtered away.
+                    //statusText.setText("");
+                } else {
+                    int modelRow = tblSertif.convertRowIndexToModel(viewRow);
+                    SerificateTableModel model;
+                    model = (SerificateTableModel) sertificateTableModel;
+
+                    Sertif value = model.getRowByIndex(modelRow);
+                    setSelectedSertificate(value);
+                    //newFilterSertif(value);
+                }
+            }
+        }
+        );
+        
 
     }
 
@@ -175,8 +197,8 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     private void newFilterSertif(SpisokVrach value) {
-        RowFilter<SertifTableModel, Object> rf = null;
-        
+        RowFilter<SerificateTableModel, Object> rf = null;
+
         try {
             rf = RowFilter.regexFilter(value.getIddokt().toString(), 4);
         } catch (java.util.regex.PatternSyntaxException e) {
@@ -186,6 +208,12 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     public MainFrame() {
+
+    }
+
+    public void UpdateTableSpisokVrach() {
+        doctorTableModel.setListDoctors(hiber.getSpisokVrach());
+        doctorTableModel.fireTableDataChanged();
 
     }
 
@@ -206,6 +234,23 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu2.setText("jMenu2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
+        addWindowStateListener(new java.awt.event.WindowStateListener() {
+            public void windowStateChanged(java.awt.event.WindowEvent evt) {
+                formWindowStateChanged(evt);
+            }
+        });
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -239,6 +284,22 @@ public class MainFrame extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_formWindowClosing
 
+    private void formWindowStateChanged(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowStateChanged
+
+
+    }//GEN-LAST:event_formWindowStateChanged
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_formFocusGained
+
+    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+        // TODO add your handling code here:
+
+
+    }//GEN-LAST:event_formWindowGainedFocus
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
@@ -257,5 +318,19 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public void setSelectedDoctor(SpisokVrach selectedDoctor) {
         this.selectedDoctor = selectedDoctor;
+    }
+
+    /**
+     * @return the selectedSertificate
+     */
+    public Sertif getSelectedSertificate() {
+        return selectedSertificate;
+    }
+
+    /**
+     * @param selectedSertificate the selectedSertificate to set
+     */
+    public void setSelectedSertificate(Sertif selectedSertificate) {
+        this.selectedSertificate = selectedSertificate;
     }
 }

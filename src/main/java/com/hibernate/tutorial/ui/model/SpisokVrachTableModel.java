@@ -11,13 +11,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
 /**
  *
  * @author Юыху
  */
-public class SpisokVrachTableModel implements TableModel {
+public class SpisokVrachTableModel extends AbstractTableModel {
 
     private Set<TableModelListener> listeners = new HashSet<TableModelListener>();
 
@@ -160,6 +161,13 @@ public class SpisokVrachTableModel implements TableModel {
     @Override
     public void removeTableModelListener(TableModelListener listener) {
         listeners.remove(listener);
+    }
+
+    /**
+     * @param listDoctors the listDoctors to set
+     */
+    public void setListDoctors(List<SpisokVrach> listDoctors) {
+        this.listDoctors = listDoctors;
     }
 
 }
