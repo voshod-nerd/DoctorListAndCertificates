@@ -8,33 +8,70 @@ package com.hibernate.tutorial.ui;
 import com.hibernate.tutorial.app.interfaces.SetGetSkv015;
 import com.hibernate.tutorial.entity.Sertif;
 import com.hibernate.tutorial.entity.SkV015;
+import com.hibernate.tutorial.entity.SpisokVrach;
+import com.hibernate.tutorial.app.interfaces.SetGetDoctor;
+import com.hibernate.tutorial.config.SpringContext;
+import com.hibernate.tutorial.service.HibernateMain;
+import com.hibernate.tutorial.ui.model.PrvsTableModel;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
  *
  * @author Талалаев
  */
-public class EditSertificateJDialog extends javax.swing.JDialog implements SetGetSkv015 {
+public class EditSertificateJDialog extends javax.swing.JDialog implements SetGetSkv015, SetGetDoctor {
 
     /**
      * Creates new form ChangeSertifJDialog
      */
     private final MainFrame parentFrame;
     private SkV015 chosenPrvs;
-    
+    private SpisokVrach doctor;
+    private Sertif sertificate;
+     private ApplicationContext context;
+      private HibernateMain hiber;
+    private PrvsTableModel tablemodel;
+
     public EditSertificateJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        parentFrame=(MainFrame)parent;
+        parentFrame = (MainFrame) parent;
         initComponents();
         
-         Sertif sertificate =parentFrame.getSelectedSertificate();
+         // init spring cotext
+        context = new AnnotationConfigApplicationContext(SpringContext.class);
+        hiber = (HibernateMain) context.getBean("HibernateMain");
         
-        if (sertificate.getNSert()!=null) jTextFieldNsertif.setText(sertificate.getNSert());
-        if (sertificate.getRegNum()!=null) jTextFieldRegNumber.setText(sertificate.getRegNum());
-        if (sertificate.getDateEnd()!=null) jDateChooserEndSertif.setDate(sertificate.getDateEnd());
-        if (sertificate.getRegNum()!=null) jTextFieldRegNumber.setText(sertificate.getRegNum());
-        if (sertificate.getPrvs()!=null) jLabelPRVS.setText(sertificate.getPrvs().getName());
-        if (sertificate.getIddokt()!=null) jLabelIidDokt.setText(sertificate.getIddokt().getFam()+" "+sertificate.getIddokt().getIm());
-        if (sertificate.getDateadd()!=null) jDateChooser2.setDate(sertificate.getDateadd());
+        
+        
+
+        sertificate = parentFrame.getSelectedSertificate();
+
+        if (sertificate.getNSert() != null) {
+            jTextFieldNsertif.setText(sertificate.getNSert());
+        }
+        if (sertificate.getRegNum() != null) {
+            jTextFieldRegNumber.setText(sertificate.getRegNum());
+        }
+        if (sertificate.getDateEnd() != null) {
+            jDateChooserEndSertif.setDate(sertificate.getDateEnd());
+        }
+        if (sertificate.getRegNum() != null) {
+            jTextFieldRegNumber.setText(sertificate.getRegNum());
+        }
+        if (sertificate.getPrvs() != null) {
+            jLabelPRVS.setText(sertificate.getPrvs().getName());
+        }
+        if (sertificate.getIddokt() != null) {
+            jLabelIidDokt.setText(sertificate.getIddokt().getFam() + " " + sertificate.getIddokt().getIm());
+        }
+        if (sertificate.getDateadd() != null) {
+            jDateChooserDateAdd.setDate(sertificate.getDateadd());
+        }
     }
 
     /**
@@ -54,8 +91,7 @@ public class EditSertificateJDialog extends javax.swing.JDialog implements SetGe
         jLabelPRVS = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabelIidDokt = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jDateChooserDateAdd = new com.toedter.calendar.JDateChooser();
         jLabel7 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jTextFieldNsertif = new javax.swing.JTextField();
@@ -82,12 +118,15 @@ public class EditSertificateJDialog extends javax.swing.JDialog implements SetGe
 
         jLabelIidDokt.setText("Принадледность сертификата");
 
-        jButton2.setText("Выбрать");
-
         jLabel7.setText("Дата добавление сертификата");
 
         jButton3.setText("Обновить");
         jButton3.setToolTipText("");
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton3MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -100,8 +139,7 @@ public class EditSertificateJDialog extends javax.swing.JDialog implements SetGe
                     .addComponent(jLabelPRVS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabelIidDokt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jDateChooserDateAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextFieldNsertif)
@@ -140,12 +178,10 @@ public class EditSertificateJDialog extends javax.swing.JDialog implements SetGe
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabelIidDokt)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jDateChooserDateAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton3)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -156,8 +192,30 @@ public class EditSertificateJDialog extends javax.swing.JDialog implements SetGe
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
-        ChosePrvsDialog jDialog = new ChosePrvsDialog(this,true);
+        ChosePrvsDialog jDialog = new ChosePrvsDialog(this, true);
+        jDialog.setVisible(true);
     }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+
+        if (jTextFieldNsertif.getText().isEmpty() || jTextFieldRegNumber.getText().isEmpty()) {
+            JFrame frame = new JFrame("Сообщение");
+            JOptionPane.showMessageDialog(frame,
+                    "Не заполнены все необходимые поля"
+            );
+
+        } else {
+            sertificate.setNSert(jTextFieldNsertif.getText());
+            sertificate.setRegNum(jTextFieldRegNumber.getText());
+            sertificate.setDateEnd(jDateChooserEndSertif.getDate());
+            sertificate.setDateadd(jDateChooserDateAdd.getDate());
+            
+            List<Sertif> list= new ArrayList<>();
+            list.add(sertificate);
+            hiber.UpdateSertificates(list);
+            dispose();
+        }
+    }//GEN-LAST:event_jButton3MouseClicked
 
     /**
      * @param args the command line arguments
@@ -206,9 +264,8 @@ public class EditSertificateJDialog extends javax.swing.JDialog implements SetGe
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
+    private com.toedter.calendar.JDateChooser jDateChooserDateAdd;
     private com.toedter.calendar.JDateChooser jDateChooserEndSertif;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -223,11 +280,24 @@ public class EditSertificateJDialog extends javax.swing.JDialog implements SetGe
 
     @Override
     public void setChosenPrvs(SkV015 chosenPrvs) {
-       this.chosenPrvs=chosenPrvs;
+        this.chosenPrvs = chosenPrvs;
+        jLabelPRVS.setText(chosenPrvs.getName());
+        sertificate.setPrvs(chosenPrvs);
     }
 
     @Override
     public SkV015 getChosenPrvs() {
-       return chosenPrvs;
+        return chosenPrvs;
+    }
+
+    @Override
+    public void setChosenDoctor(SpisokVrach chosenDoctor) {
+        this.doctor = chosenDoctor;
+
+    }
+
+    @Override
+    public SpisokVrach getChosenDoctor() {
+        return this.doctor;
     }
 }

@@ -6,10 +6,14 @@
 package com.hibernate.tutorial.ui.listener;
 
 
+import com.hibernate.tutorial.service.HibernateMain;
 import com.hibernate.tutorial.ui.AddDoctorJDialog;
 import com.hibernate.tutorial.ui.ChosePrvsDialog;
+import com.hibernate.tutorial.ui.model.SpisokVrachTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.table.TableRowSorter;
+import org.springframework.context.ApplicationContext;
 
 /**
  *
@@ -17,7 +21,10 @@ import java.awt.event.MouseEvent;
  */
 public class JChosePRVSMouseListener extends MouseAdapter {
      private AddDoctorJDialog frame;
-    
+     private HibernateMain hiber;
+    private ApplicationContext context;
+    private SpisokVrachTableModel tablemodel;
+    private TableRowSorter<SpisokVrachTableModel> sorter;
      
     public  JChosePRVSMouseListener(AddDoctorJDialog frame) {
     this.frame=frame;

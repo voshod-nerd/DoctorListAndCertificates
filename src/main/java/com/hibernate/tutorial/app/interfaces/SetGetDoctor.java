@@ -5,17 +5,14 @@
  */
 package com.hibernate.tutorial.app.interfaces;
 
-import com.hibernate.tutorial.entity.SkV015;
+import com.hibernate.tutorial.entity.SpisokVrach;
 
 /**
  *
  * @author Талалаев
  */
-public interface SetGetSkv015 {
-    public void setChosenPrvs(SkV015 chosenPrvs);
-    public SkV015 getChosenPrvs();
-    
-       
-   
+public interface SetGetDoctor {
+   public void setChosenDoctor(SpisokVrach chosenPrvs);
+   public SpisokVrach getChosenDoctor();
     
 }
