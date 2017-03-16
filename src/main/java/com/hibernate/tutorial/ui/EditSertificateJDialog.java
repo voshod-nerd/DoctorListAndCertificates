@@ -33,8 +33,8 @@ public class EditSertificateJDialog extends javax.swing.JDialog implements SetGe
     private SkV015 chosenPrvs;
     private SpisokVrach doctor;
     private Sertif sertificate;
-     private ApplicationContext context;
-      private HibernateMain hiber;
+    private final ApplicationContext context;
+    private final HibernateMain hiber;
     private PrvsTableModel tablemodel;
 
     public EditSertificateJDialog(java.awt.Frame parent, boolean modal) {

@@ -11,6 +11,7 @@ import com.hibernate.tutorial.entity.SkV015;
 import com.hibernate.tutorial.entity.SpisokVrach;
 import com.hibernate.tutorial.service.HibernateMain;
 import com.hibernate.tutorial.ui.listener.JAddDoctorMouseListener;
+import com.hibernate.tutorial.ui.listener.JAddSertificateMouseListener;
 import com.hibernate.tutorial.ui.model.SerificateTableModel;
 import com.hibernate.tutorial.ui.model.SpisokVrachTableModel;
 import com.hibernate.tutorial.ui.listener.ListDoctorsMouseTableListener;
@@ -53,6 +54,7 @@ public class MainFrame extends javax.swing.JFrame {
     //private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private TableRowSorter<SpisokVrachTableModel> sorterVr;
     private TableRowSorter<SerificateTableModel> sorterSertif;
     private JTextField filterText;
@@ -93,13 +95,19 @@ public class MainFrame extends javax.swing.JFrame {
 
         jMenuItem1 = new JMenuItem("Добавить врача",
                 KeyEvent.VK_T);
+        jMenuItem3 = new JMenuItem("Добавить сертификат",
+                KeyEvent.VK_T);
+
         jMenuItem2 = new JMenuItem("Экспорт в xml"
                 + "",
                 KeyEvent.VK_T);
         jMenu1.add(jMenuItem1);
+        jMenu1.add(jMenuItem3);
         jMenu1.add(jMenuItem2);
+       
 
         jMenuItem1.addMouseListener(new JAddDoctorMouseListener(this));
+        jMenuItem3.addMouseListener(new JAddSertificateMouseListener(this));
 
         filterText = new JTextField();
         //Whenever filterText changes, invoke newFilter.
@@ -181,7 +189,6 @@ public class MainFrame extends javax.swing.JFrame {
             }
         }
         );
-        
 
     }
 

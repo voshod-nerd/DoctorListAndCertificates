@@ -5,18 +5,43 @@
  */
 package com.hibernate.tutorial.ui;
 
+import com.hibernate.tutorial.app.interfaces.SetGetDoctor;
+import com.hibernate.tutorial.app.interfaces.SetGetSkv015;
+import com.hibernate.tutorial.config.SpringContext;
+import com.hibernate.tutorial.entity.Sertif;
+import com.hibernate.tutorial.entity.SkV015;
+import com.hibernate.tutorial.entity.SpisokVrach;
+import com.hibernate.tutorial.service.HibernateMain;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 /**
  *
  * @author Талалаев
  */
-public class AddCertificateJDialog extends javax.swing.JDialog {
+public class AddCertificateJDialog extends javax.swing.JDialog implements SetGetDoctor,SetGetSkv015 {
 
     /**
      * Creates new form AddCertificate
      */
+    private SkV015 prvs;
+    private SpisokVrach chosenDoctor;
+    private Sertif sertificate;
+    private ApplicationContext context;
+    private HibernateMain hiber;
+    
+    
+    
     public AddCertificateJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+          // init spring cotext
+        context = new AnnotationConfigApplicationContext(SpringContext.class);
+        hiber = (HibernateMain) context.getBean("HibernateMain");
+        
     }
 
     /**
@@ -32,16 +57,17 @@ public class AddCertificateJDialog extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jDateChooserDateAdd = new com.toedter.calendar.JDateChooser();
         jLabel2 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        jButtonAddSertificate = new javax.swing.JButton();
         jDateChooserEndSertif = new com.toedter.calendar.JDateChooser();
         jTextFieldNsertif = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jTextFieldRegNumber = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        jLabelPRVS = new javax.swing.JLabel();
+        jDoctorLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -57,14 +83,19 @@ public class AddCertificateJDialog extends javax.swing.JDialog {
 
         jLabel7.setText("Дата добавление сертификата");
 
-        jButton3.setText("Добавить");
-        jButton3.setToolTipText("");
+        jButtonAddSertificate.setText("Добавить");
+        jButtonAddSertificate.setToolTipText("");
+        jButtonAddSertificate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonAddSertificateMouseClicked(evt);
+            }
+        });
 
         jLabel3.setText("Дата окончания");
 
         jLabel4.setText("Специальность");
 
-        jLabel5.setText("Специальность название");
+        jLabelPRVS.setText("Специальность название");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -74,24 +105,25 @@ public class AddCertificateJDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelPRVS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jDateChooserDateAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonAddSertificate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextFieldNsertif)
+                    .addComponent(jTextFieldRegNumber)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jDateChooserEndSertif, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jTextFieldRegNumber)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jDateChooserEndSertif, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jDoctorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -112,24 +144,48 @@ public class AddCertificateJDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
+                .addComponent(jLabelPRVS)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(3, 3, 3)
+                .addComponent(jDoctorLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jDateChooserDateAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jButtonAddSertificate, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonAddSertificateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAddSertificateMouseClicked
+        // TODO add your handling code here:
+         if (jTextFieldNsertif.getText().isEmpty() || jTextFieldRegNumber.getText().isEmpty()) {
+            JFrame frame = new JFrame("Сообщение");
+            JOptionPane.showMessageDialog(frame,
+                    "Не заполнены все необходимые поля"
+            );
+
+        } else {
+            sertificate.setNSert(jTextFieldNsertif.getText());
+            sertificate.setRegNum(jTextFieldRegNumber.getText());
+            sertificate.setDateEnd(jDateChooserEndSertif.getDate());
+            sertificate.setDateadd(jDateChooserDateAdd.getDate());
+            
+            //List<Sertif> list= new ArrayList<>();
+            //list.add(sertificate);
+            //hiber.UpdateSertificates(list);
+            //dispose();
+        }
+        
+    }//GEN-LAST:event_jButtonAddSertificateMouseClicked
 
     /**
      * @param args the command line arguments
@@ -177,17 +233,43 @@ public class AddCertificateJDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
+    private javax.swing.JButton jButtonAddSertificate;
+    private com.toedter.calendar.JDateChooser jDateChooserDateAdd;
     private com.toedter.calendar.JDateChooser jDateChooserEndSertif;
+    private javax.swing.JLabel jDoctorLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabelPRVS;
     private javax.swing.JTextField jTextFieldNsertif;
     private javax.swing.JTextField jTextFieldRegNumber;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void setChosenDoctor(SpisokVrach chosenDoctor) {
+        this.chosenDoctor=chosenDoctor;
+        String fioDoctor=chosenDoctor.getIddokt().toString()+": "+chosenDoctor.getFam()+" "+chosenDoctor.getIm()+" "+chosenDoctor.getOt();
+        jDoctorLabel.setText(chosenDoctor.getFam());
+        sertificate.setIddokt(chosenDoctor);
+    }
+
+    @Override
+    public SpisokVrach getChosenDoctor() {
+        return chosenDoctor;
+    }
+
+    @Override
+    public void setChosenPrvs(SkV015 chosenPrvs) {
+      this.prvs=chosenPrvs;
+      jLabelPRVS.setText(prvs.getName());
+      sertificate.setPrvs(prvs);
+    }
+
+    @Override
+    public SkV015 getChosenPrvs() {
+        return prvs;
+    }
 }

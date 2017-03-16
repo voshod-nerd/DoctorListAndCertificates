@@ -12,7 +12,7 @@ import com.hibernate.tutorial.entity.SpisokVrach;
  * @author Талалаев
  */
 public interface SetGetDoctor {
-   public void setChosenDoctor(SpisokVrach chosenPrvs);
+   public void setChosenDoctor(SpisokVrach chosenDoctor);
    public SpisokVrach getChosenDoctor();
     
 }
