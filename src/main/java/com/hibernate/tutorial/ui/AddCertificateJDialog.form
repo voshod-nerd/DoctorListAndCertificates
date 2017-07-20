@@ -34,12 +34,12 @@
                   <Component id="jDateChooserDateAdd" alignment="0" max="32767" attributes="0"/>
                   <Component id="jLabel7" alignment="0" max="32767" attributes="0"/>
                   <Component id="jButtonAddSertificate" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jTextFieldNsertif" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jTextFieldRegNumber" alignment="0" max="32767" attributes="0"/>
+                  <Component id="nsertif" alignment="0" max="32767" attributes="0"/>
+                  <Component id="regnumber" alignment="0" max="32767" attributes="0"/>
                   <Component id="jLabel3" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="jDateChooserEndSertif" min="-2" pref="574" max="-2" attributes="0"/>
+                      <Component id="endSertif" min="-2" pref="574" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -60,15 +60,15 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
-              <Component id="jTextFieldNsertif" min="-2" max="-2" attributes="0"/>
+              <Component id="nsertif" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jTextFieldRegNumber" min="-2" max="-2" attributes="0"/>
+              <Component id="regnumber" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel3" min="-2" pref="21" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jDateChooserEndSertif" min="-2" max="-2" attributes="0"/>
+              <Component id="endSertif" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -97,6 +97,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x412;&#x44b;&#x431;&#x440;&#x430;&#x442;&#x44c;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>
@@ -107,6 +110,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x412;&#x44b;&#x431;&#x440;&#x430;&#x442;&#x44c;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
@@ -132,18 +138,22 @@
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonAddSertificateMouseClicked"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAddSertificateActionPerformed"/>
       </Events>
     </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="jDateChooserEndSertif">
+    <Component class="com.toedter.calendar.JDateChooser" name="endSertif">
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextFieldNsertif">
+    <Component class="javax.swing.JTextField" name="nsertif">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x414;&#x430;&#x442;&#x430; &#x43e;&#x43a;&#x43e;&#x43d;&#x447;&#x430;&#x43d;&#x438;&#x44f;"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextFieldRegNumber">
+    <Component class="javax.swing.JTextField" name="regnumber">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="regnumberActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>

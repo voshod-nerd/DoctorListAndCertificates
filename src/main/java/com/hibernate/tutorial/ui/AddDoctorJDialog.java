@@ -10,7 +10,7 @@ import com.hibernate.tutorial.config.SpringContext;
 import com.hibernate.tutorial.entity.SkV015;
 import com.hibernate.tutorial.entity.SpisokVrach;
 import com.hibernate.tutorial.service.HibernateMain;
-import com.hibernate.tutorial.ui.listener.JChosePRVSMouseListener;
+
 import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -27,6 +27,7 @@ public class AddDoctorJDialog extends javax.swing.JDialog implements SetGetSkv01
     private HibernateMain hiber;
     private ApplicationContext context;
     private SkV015 chosenPrvs;
+    private ChosePrvsDialog forms;
 
     /**
      * Creates new form AddDoctorJDialog
@@ -35,7 +36,7 @@ public class AddDoctorJDialog extends javax.swing.JDialog implements SetGetSkv01
         super(parent, modal);
         initComponents();
 
-        jAddPrvsButton.addMouseListener(new JChosePRVSMouseListener(this));
+       // jAddPrvsButton.addMouseListener(new JChosePRVSMouseListener(this));
 
         context = new AnnotationConfigApplicationContext(SpringContext.class);
         hiber = (HibernateMain) context.getBean("HibernateMain");
@@ -69,7 +70,7 @@ public class AddDoctorJDialog extends javax.swing.JDialog implements SetGetSkv01
         jLabel7 = new javax.swing.JLabel();
         jOtTextField = new javax.swing.JTextField();
         jDoctCheckBox = new javax.swing.JCheckBox();
-        jLabel8 = new javax.swing.JLabel();
+        prvsDoctor = new javax.swing.JLabel();
         jSaveButton = new javax.swing.JButton();
         jAddPrvsButton = new javax.swing.JButton();
         PrvsLabel = new javax.swing.JLabel();
@@ -109,7 +110,7 @@ public class AddDoctorJDialog extends javax.swing.JDialog implements SetGetSkv01
 
         jDoctCheckBox.setText("Признак доктора");
 
-        jLabel8.setText("Специальность врача");
+        prvsDoctor.setText("Специальность врача");
 
         jSaveButton.setText("Добавить");
         jSaveButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -159,7 +160,7 @@ public class AddDoctorJDialog extends javax.swing.JDialog implements SetGetSkv01
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jDoctCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(prvsDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9))
                         .addGap(0, 220, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -200,7 +201,7 @@ public class AddDoctorJDialog extends javax.swing.JDialog implements SetGetSkv01
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jDoctCheckBox)
                 .addGap(6, 6, 6)
-                .addComponent(jLabel8)
+                .addComponent(prvsDoctor)
                 .addGap(18, 18, 18)
                 .addComponent(jAddPrvsButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -215,29 +216,24 @@ public class AddDoctorJDialog extends javax.swing.JDialog implements SetGetSkv01
 
     private void jSaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSaveButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jSaveButtonActionPerformed
-
-    private void jSaveButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jSaveButtonMouseClicked
-        // TODO add your handling code here:
-
-        try {
+         try {
             SpisokVrach vrach = new SpisokVrach();
-            if (jIdDoctTextField.getText().isEmpty()) {
+            if (!jIdDoctTextField.getText().isEmpty()) {
                 vrach.setIddokt(Integer.parseInt(jIdDoctTextField.getText()));
             }
 
-            if (jIdDoctTextField.getText().isEmpty()) {
+            if (!jIdDoctTextField.getText().isEmpty()) {
                 vrach.setIdOtd(Integer.parseInt(jIdDoctTextField.getText()));
             }
 
-            if (jLpuTextField.getText().isEmpty()) {
+            if (!jLpuTextField.getText().isEmpty()) {
                 vrach.setLpukod(Integer.parseInt(jLpuTextField.getText()));
             }
 
             vrach.setFam(jFamTextField.getText());
             vrach.setIm(jImTextField.getText());
 
-            if (jOtTextField.getText() != "") {
+            if (!jOtTextField.getText().equals("")) {
                 vrach.setOt(jOtTextField.getText());
             }
 
@@ -246,19 +242,30 @@ public class AddDoctorJDialog extends javax.swing.JDialog implements SetGetSkv01
             if (getChosenPrvs()!= null) {
             vrach.setPrvs(getChosenPrvs());}
             
+            System.out.println(vrach.getPrvs().getName());
             hiber.InsertSpisokVrach(vrach);
             dispose();
         } catch (Exception er) {
             JFrame frame = new JFrame("Ошибка ввода");
-            JOptionPane.showMessageDialog(frame, "Вы не заполнили все обязательные поля", "Ошибки ввода",
+            JOptionPane.showMessageDialog(frame, er.fillInStackTrace(), "Ошибки ввода",
                     JOptionPane.INFORMATION_MESSAGE);
         }
+        
+        
+    }//GEN-LAST:event_jSaveButtonActionPerformed
+
+    private void jSaveButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jSaveButtonMouseClicked
+        // TODO add your handling code here:
+
+       
 
 
     }//GEN-LAST:event_jSaveButtonMouseClicked
 
     private void jAddPrvsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddPrvsButtonActionPerformed
         // TODO add your handling code here:
+        ChosePrvsDialog fr=new ChosePrvsDialog(this,true);
+        fr.setVisible(true);
     }//GEN-LAST:event_jAddPrvsButtonActionPerformed
 
     /**
@@ -318,7 +325,6 @@ public class AddDoctorJDialog extends javax.swing.JDialog implements SetGetSkv01
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField jLpuTextField;
     private javax.swing.JTextField jOtTextField;
@@ -327,6 +333,7 @@ public class AddDoctorJDialog extends javax.swing.JDialog implements SetGetSkv01
     private javax.swing.JButton jSaveButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel prvsDoctor;
     // End of variables declaration//GEN-END:variables
 
     /**
@@ -334,6 +341,7 @@ public class AddDoctorJDialog extends javax.swing.JDialog implements SetGetSkv01
      */
     public void setChosenPrvs(SkV015 chosenPrvs) {
         this.chosenPrvs = chosenPrvs;
+        prvsDoctor.setText(chosenPrvs.getName());
     }
 
     /**

@@ -31,6 +31,8 @@ public class AddCertificateJDialog extends javax.swing.JDialog implements SetGet
     private Sertif sertificate;
     private ApplicationContext context;
     private HibernateMain hiber;
+    private ChosePrvsDialog form;
+    private ChoseDoctorJDialog choseDoctorForm; 
     
     
     
@@ -41,6 +43,7 @@ public class AddCertificateJDialog extends javax.swing.JDialog implements SetGet
           // init spring cotext
         context = new AnnotationConfigApplicationContext(SpringContext.class);
         hiber = (HibernateMain) context.getBean("HibernateMain");
+        sertificate = new Sertif();
         
     }
 
@@ -61,10 +64,10 @@ public class AddCertificateJDialog extends javax.swing.JDialog implements SetGet
         jLabel2 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jButtonAddSertificate = new javax.swing.JButton();
-        jDateChooserEndSertif = new com.toedter.calendar.JDateChooser();
-        jTextFieldNsertif = new javax.swing.JTextField();
+        endSertif = new com.toedter.calendar.JDateChooser();
+        nsertif = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextFieldRegNumber = new javax.swing.JTextField();
+        regnumber = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabelPRVS = new javax.swing.JLabel();
         jDoctorLabel = new javax.swing.JLabel();
@@ -72,10 +75,20 @@ public class AddCertificateJDialog extends javax.swing.JDialog implements SetGet
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jButton1.setText("Выбрать");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Принадледность сертификата");
 
         jButton2.setText("Выбрать");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText(" Номер сертификата");
 
@@ -90,8 +103,19 @@ public class AddCertificateJDialog extends javax.swing.JDialog implements SetGet
                 jButtonAddSertificateMouseClicked(evt);
             }
         });
+        jButtonAddSertificate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddSertificateActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Дата окончания");
+
+        regnumber.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                regnumberActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Специальность");
 
@@ -112,12 +136,12 @@ public class AddCertificateJDialog extends javax.swing.JDialog implements SetGet
                     .addComponent(jDateChooserDateAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonAddSertificate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextFieldNsertif)
-                    .addComponent(jTextFieldRegNumber)
+                    .addComponent(nsertif)
+                    .addComponent(regnumber)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jDateChooserEndSertif, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(endSertif, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -132,15 +156,15 @@ public class AddCertificateJDialog extends javax.swing.JDialog implements SetGet
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(1, 1, 1)
-                .addComponent(jTextFieldNsertif, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(nsertif, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldRegNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(regnumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jDateChooserEndSertif, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(endSertif, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -167,16 +191,16 @@ public class AddCertificateJDialog extends javax.swing.JDialog implements SetGet
 
     private void jButtonAddSertificateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAddSertificateMouseClicked
         // TODO add your handling code here:
-         if (jTextFieldNsertif.getText().isEmpty() || jTextFieldRegNumber.getText().isEmpty()) {
+         if (nsertif.getText().isEmpty() || regnumber.getText().isEmpty()) {
             JFrame frame = new JFrame("Сообщение");
             JOptionPane.showMessageDialog(frame,
                     "Не заполнены все необходимые поля"
             );
 
         } else {
-            sertificate.setNSert(jTextFieldNsertif.getText());
-            sertificate.setRegNum(jTextFieldRegNumber.getText());
-            sertificate.setDateEnd(jDateChooserEndSertif.getDate());
+            sertificate.setNSert(nsertif.getText());
+            sertificate.setRegNum(regnumber.getText());
+            sertificate.setDateEnd(endSertif.getDate());
             sertificate.setDateadd(jDateChooserDateAdd.getDate());
             
             //List<Sertif> list= new ArrayList<>();
@@ -186,6 +210,30 @@ public class AddCertificateJDialog extends javax.swing.JDialog implements SetGet
         }
         
     }//GEN-LAST:event_jButtonAddSertificateMouseClicked
+
+    private void jButtonAddSertificateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddSertificateActionPerformed
+        // add sertificate 
+        
+    }//GEN-LAST:event_jButtonAddSertificateActionPerformed
+
+    private void regnumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regnumberActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_regnumberActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        // show lisp spec 
+         form = new ChosePrvsDialog(this,true);
+         form.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        // need to chose Doctor 
+        choseDoctorForm = new ChoseDoctorJDialog(this,true);
+        choseDoctorForm.setVisible(true);
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -231,11 +279,11 @@ public class AddCertificateJDialog extends javax.swing.JDialog implements SetGet
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser endSertif;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonAddSertificate;
     private com.toedter.calendar.JDateChooser jDateChooserDateAdd;
-    private com.toedter.calendar.JDateChooser jDateChooserEndSertif;
     private javax.swing.JLabel jDoctorLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -244,8 +292,8 @@ public class AddCertificateJDialog extends javax.swing.JDialog implements SetGet
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabelPRVS;
-    private javax.swing.JTextField jTextFieldNsertif;
-    private javax.swing.JTextField jTextFieldRegNumber;
+    private javax.swing.JTextField nsertif;
+    private javax.swing.JTextField regnumber;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -265,7 +313,7 @@ public class AddCertificateJDialog extends javax.swing.JDialog implements SetGet
     public void setChosenPrvs(SkV015 chosenPrvs) {
       this.prvs=chosenPrvs;
       jLabelPRVS.setText(prvs.getName());
-      sertificate.setPrvs(prvs);
+     // sertificate.setPrvs(prvs);
     }
 
     @Override

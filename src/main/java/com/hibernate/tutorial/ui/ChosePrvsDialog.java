@@ -44,7 +44,8 @@ public class ChosePrvsDialog extends javax.swing.JDialog {
     public ChosePrvsDialog(java.awt.Dialog parent, boolean modal) {
 
         super(parent, modal);
-        //parent = (java.awt.Dialog)parent;
+        System.out.println("Parent here!!!"+parent.toString());
+        parent = (java.awt.Dialog)parent;
 
         context = new AnnotationConfigApplicationContext(SpringContext.class);
         hiber = (HibernateMain) context.getBean("HibernateMain");
@@ -234,13 +235,17 @@ public class ChosePrvsDialog extends javax.swing.JDialog {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-      
+        
         
     }//GEN-LAST:event_formWindowClosing
 
     private void ChooseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChooseButtonActionPerformed
         // TODO add your handling code here:
-        
+        if (parent!=null) { 
+        SetGetSkv015 pr = (SetGetSkv015)parent;
+        pr.setChosenPrvs(chosenPrvs);
+        } else System.out.println("Null  parent form");
+       // this.dispose();
         
     }//GEN-LAST:event_ChooseButtonActionPerformed
 

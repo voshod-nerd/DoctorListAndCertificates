@@ -4,11 +4,14 @@
  * and open the template in the editor.
  */
 package com.hibernate.tutorial.ui;
-
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import com.hibernate.tutorial.app.interfaces.SetGetDoctor;
+import com.hibernate.tutorial.config.SpringContext;
 import com.hibernate.tutorial.entity.SpisokVrach;
 import com.hibernate.tutorial.service.HibernateMain;
 import com.hibernate.tutorial.ui.model.SpisokVrachTableModel;
+import java.util.List;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
@@ -30,18 +33,26 @@ public class ChoseDoctorJDialog extends javax.swing.JDialog {
     private SpisokVrachTableModel tablemodel;
     private TableRowSorter<SpisokVrachTableModel> sorter;
     private SpisokVrach chosenDoctor;
+    private JDialog parent;
 
-    public ChoseDoctorJDialog(java.awt.Frame parent, boolean modal) {
+    public ChoseDoctorJDialog(java.awt.Dialog parent, boolean modal) {
         super(parent, modal);
+        
+          context = new AnnotationConfigApplicationContext(SpringContext.class);
+        hiber = (HibernateMain) context.getBean("HibernateMain");
+        List<SpisokVrach> listDoctor = hiber.getSpisokVrach();
+        tablemodel = new SpisokVrachTableModel(listDoctor);
+        
+        
+        
         initComponents();
-        
-        
-        
-        
-
         //---------------------------- Sorted and filter
         sorter = new TableRowSorter<SpisokVrachTableModel>(tablemodel);
         jTable1.setRowSorter(sorter);
+        
+      
+        
+        
 
         jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
@@ -154,6 +165,10 @@ public class ChoseDoctorJDialog extends javax.swing.JDialog {
 
     private void ChooseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChooseButtonActionPerformed
         // TODO add your handling code here:
+      if (parent!=null) { 
+        SetGetDoctor pr = (SetGetDoctor)parent;
+        pr.setChosenDoctor(chosenDoctor);
+        } else System.out.println("Null  parent form");
 
     }//GEN-LAST:event_ChooseButtonActionPerformed
 
@@ -187,7 +202,7 @@ public class ChoseDoctorJDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ChoseDoctorJDialog dialog = new ChoseDoctorJDialog(new javax.swing.JFrame(), true);
+                ChoseDoctorJDialog dialog = new ChoseDoctorJDialog(new javax.swing.JDialog(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
