@@ -5,6 +5,8 @@
  */
 package com.hibernate.tutorial.ui;
 
+import com.hibernate.tutorial.app.interfaces.ObservableChangeDatabaseContent;
+import com.hibernate.tutorial.app.interfaces.ObserverChangeDatabaseContent;
 import com.hibernate.tutorial.app.interfaces.SetGetDoctor;
 import com.hibernate.tutorial.app.interfaces.SetGetSkv015;
 import com.hibernate.tutorial.config.SpringContext;
@@ -12,6 +14,8 @@ import com.hibernate.tutorial.entity.Sertif;
 import com.hibernate.tutorial.entity.SkV015;
 import com.hibernate.tutorial.entity.SpisokVrach;
 import com.hibernate.tutorial.service.HibernateMain;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.springframework.context.ApplicationContext;
@@ -21,7 +25,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  *
  * @author Талалаев
  */
-public class AddCertificateJDialog extends javax.swing.JDialog implements SetGetDoctor,SetGetSkv015 {
+public class AddCertificateJDialog extends javax.swing.JDialog implements SetGetDoctor, SetGetSkv015,ObservableChangeDatabaseContent {
 
     /**
      * Creates new form AddCertificate
@@ -31,20 +35,19 @@ public class AddCertificateJDialog extends javax.swing.JDialog implements SetGet
     private Sertif sertificate;
     private ApplicationContext context;
     private HibernateMain hiber;
-    private ChosePrvsDialog form;
-    private ChoseDoctorJDialog choseDoctorForm; 
-    
-    
-    
+    private ChosePrvsDialog chosenPrvs;
+    private ChoseDoctorJDialog choseDoctorForm;
+    private ObserverChangeDatabaseContent observer;
+
     public AddCertificateJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
-          // init spring cotext
+
+        // init spring cotext
         context = new AnnotationConfigApplicationContext(SpringContext.class);
         hiber = (HibernateMain) context.getBean("HibernateMain");
         sertificate = new Sertif();
-        
+
     }
 
     /**
@@ -191,7 +194,7 @@ public class AddCertificateJDialog extends javax.swing.JDialog implements SetGet
 
     private void jButtonAddSertificateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAddSertificateMouseClicked
         // TODO add your handling code here:
-         if (nsertif.getText().isEmpty() || regnumber.getText().isEmpty()) {
+        if (nsertif.getText().isEmpty() || regnumber.getText().isEmpty()) {
             JFrame frame = new JFrame("Сообщение");
             JOptionPane.showMessageDialog(frame,
                     "Не заполнены все необходимые поля"
@@ -202,18 +205,17 @@ public class AddCertificateJDialog extends javax.swing.JDialog implements SetGet
             sertificate.setRegNum(regnumber.getText());
             sertificate.setDateEnd(endSertif.getDate());
             sertificate.setDateadd(jDateChooserDateAdd.getDate());
-            
-            //List<Sertif> list= new ArrayList<>();
-            //list.add(sertificate);
-            //hiber.UpdateSertificates(list);
-            //dispose();
+            sertificate.setPrvs(prvs);
+            hiber.insertSertificate(sertificate);
+            this.notifyObserverChangeDatabaseContent();
+            dispose();
         }
-        
+
     }//GEN-LAST:event_jButtonAddSertificateMouseClicked
 
     private void jButtonAddSertificateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddSertificateActionPerformed
         // add sertificate 
-        
+
     }//GEN-LAST:event_jButtonAddSertificateActionPerformed
 
     private void regnumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regnumberActionPerformed
@@ -223,16 +225,16 @@ public class AddCertificateJDialog extends javax.swing.JDialog implements SetGet
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         // show lisp spec 
-         form = new ChosePrvsDialog(this,true);
-         form.setVisible(true);
+        chosenPrvs = new ChosePrvsDialog(this, true);
+        chosenPrvs.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         // need to chose Doctor 
-        choseDoctorForm = new ChoseDoctorJDialog(this,true);
+        choseDoctorForm = new ChoseDoctorJDialog(this, true);
         choseDoctorForm.setVisible(true);
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -298,8 +300,8 @@ public class AddCertificateJDialog extends javax.swing.JDialog implements SetGet
 
     @Override
     public void setChosenDoctor(SpisokVrach chosenDoctor) {
-        this.chosenDoctor=chosenDoctor;
-        String fioDoctor=chosenDoctor.getIddokt().toString()+": "+chosenDoctor.getFam()+" "+chosenDoctor.getIm()+" "+chosenDoctor.getOt();
+        this.chosenDoctor = chosenDoctor;
+        String fioDoctor = chosenDoctor.getIddokt().toString() + ": " + chosenDoctor.getFam() + " " + chosenDoctor.getIm() + " " + chosenDoctor.getOt();
         jDoctorLabel.setText(chosenDoctor.getFam());
         sertificate.setIddokt(chosenDoctor);
     }
@@ -311,13 +313,23 @@ public class AddCertificateJDialog extends javax.swing.JDialog implements SetGet
 
     @Override
     public void setChosenPrvs(SkV015 chosenPrvs) {
-      this.prvs=chosenPrvs;
-      jLabelPRVS.setText(prvs.getName());
-     // sertificate.setPrvs(prvs);
+        this.prvs = chosenPrvs;
+        jLabelPRVS.setText(prvs.getName());
+        // sertificate.setPrvs(prvs);
     }
 
     @Override
     public SkV015 getChosenPrvs() {
         return prvs;
+    }
+
+    @Override
+    public void notifyObserverChangeDatabaseContent() {
+       observer.handleEventChageDatabaseContent();
+    }
+
+    @Override
+    public void addObserver(ObserverChangeDatabaseContent observer) {
+      this.observer=observer;
     }
 }

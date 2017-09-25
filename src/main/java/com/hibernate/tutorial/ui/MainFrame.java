@@ -5,6 +5,7 @@
  */
 package com.hibernate.tutorial.ui;
 
+import com.hibernate.tutorial.app.interfaces.ObserverChangeDatabaseContent;
 import com.hibernate.tutorial.config.SpringContext;
 import com.hibernate.tutorial.entity.Sertif;
 import com.hibernate.tutorial.entity.SkV015;
@@ -43,7 +44,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  *
  * @author ????????
  */
-public class MainFrame extends javax.swing.JFrame {
+public class MainFrame extends javax.swing.JFrame implements ObserverChangeDatabaseContent {
 
     HibernateMain hiber;
     private javax.swing.JTable tblSpisokVrach;
@@ -339,5 +340,13 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public void setSelectedSertificate(Sertif selectedSertificate) {
         this.selectedSertificate = selectedSertificate;
+    }
+
+    @Override
+    public void handleEventChageDatabaseContent() {
+       doctorTableModel.setListDoctors(hiber.getSpisokVrach());
+       sertificateTableModel.setListSertificates(hiber.getSertifAll());
+       tblSpisokVrach.updateUI();
+       tblSertif.updateUI();;
     }
 }

@@ -33,7 +33,7 @@ public class SerificateTableModel  extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return listSertificates.size();
+        return getListSertificates().size();
     }
 
     @Override
@@ -42,7 +42,7 @@ public class SerificateTableModel  extends AbstractTableModel {
     }
     
       public Sertif getRowByIndex(int rowIndex) {
-        return listSertificates.get(rowIndex);
+        return getListSertificates().get(rowIndex);
 
     }
     
@@ -99,7 +99,7 @@ public class SerificateTableModel  extends AbstractTableModel {
     }
 
     public Object getValueAt(int rowIndex, int columnIndex) {
-       Sertif sertif = listSertificates.get(rowIndex);
+       Sertif sertif = getListSertificates().get(rowIndex);
         switch (columnIndex) {
             case 0:
                 return sertif.getNSert();
@@ -133,6 +133,20 @@ public class SerificateTableModel  extends AbstractTableModel {
     @Override
     public void removeTableModelListener(TableModelListener listener) {
        listeners.remove(listener);
+    }
+
+    /**
+     * @return the listSertificates
+     */
+    public List<Sertif> getListSertificates() {
+        return listSertificates;
+    }
+
+    /**
+     * @param listSertificates the listSertificates to set
+     */
+    public void setListSertificates(List<Sertif> listSertificates) {
+        this.listSertificates = listSertificates;
     }
 
 }

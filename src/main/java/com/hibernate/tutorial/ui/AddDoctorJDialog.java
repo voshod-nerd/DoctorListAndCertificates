@@ -5,6 +5,8 @@
  */
 package com.hibernate.tutorial.ui;
 
+import com.hibernate.tutorial.app.interfaces.ObservableChangeDatabaseContent;
+import com.hibernate.tutorial.app.interfaces.ObserverChangeDatabaseContent;
 import com.hibernate.tutorial.app.interfaces.SetGetSkv015;
 import com.hibernate.tutorial.config.SpringContext;
 import com.hibernate.tutorial.entity.SkV015;
@@ -22,12 +24,13 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  *
  * @author
  */
-public class AddDoctorJDialog extends javax.swing.JDialog implements SetGetSkv015 {
+public class AddDoctorJDialog extends javax.swing.JDialog implements ObservableChangeDatabaseContent,SetGetSkv015 {
 
     private HibernateMain hiber;
     private ApplicationContext context;
     private SkV015 chosenPrvs;
     private ChosePrvsDialog forms;
+    private ObserverChangeDatabaseContent observer;
 
     /**
      * Creates new form AddDoctorJDialog
@@ -244,6 +247,7 @@ public class AddDoctorJDialog extends javax.swing.JDialog implements SetGetSkv01
             
             System.out.println(vrach.getPrvs().getName());
             hiber.InsertSpisokVrach(vrach);
+            observer.handleEventChageDatabaseContent();
             dispose();
         } catch (Exception er) {
             JFrame frame = new JFrame("Ошибка ввода");
@@ -346,8 +350,34 @@ public class AddDoctorJDialog extends javax.swing.JDialog implements SetGetSkv01
 
     /**
      * @return the chosenPrvs
+    public SkV015 getChosenPrvs() {
+        return chosenPrvs;
+    }
+
+    
+
+    @Override
+    public void notifyObserverChangeDatabaseContent() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addObserver(ObserverChangeDatabaseContent observer) {
+
      */
     public SkV015 getChosenPrvs() {
         return chosenPrvs;
+    }
+
+    
+
+    @Override
+    public void notifyObserverChangeDatabaseContent() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addObserver(ObserverChangeDatabaseContent observer) {
+       this.observer=observer;
     }
 }

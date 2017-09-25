@@ -5,6 +5,7 @@
  */
 package com.hibernate.tutorial.ui.listener;
 
+import com.hibernate.tutorial.app.interfaces.ObserverChangeDatabaseContent;
 import com.hibernate.tutorial.ui.AddDoctorJDialog;
 import com.hibernate.tutorial.ui.MainFrame;
 import java.awt.event.MouseAdapter;
@@ -40,7 +41,8 @@ public class JAddDoctorMouseListener extends MouseAdapter {
     @Override
     public void mousePressed(MouseEvent me) {
         AddDoctorJDialog jdialog =new AddDoctorJDialog(getFrame(),true);
-                    jdialog.setVisible(true);
+        jdialog.addObserver((ObserverChangeDatabaseContent)getFrame());
+        jdialog.setVisible(true);
     
     }
     

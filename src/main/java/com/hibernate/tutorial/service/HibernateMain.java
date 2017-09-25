@@ -19,54 +19,57 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class HibernateMain {
-
+    
     @Autowired
     private SertifDAO sertifRepository;
-
+    
     @Autowired
     private SpisokVrachDAO spisokVrachRepository;
-
+    
     @Autowired
     private SkV015DAO spisokSkV015Repository;
-
+    
     @Autowired
     private SpisokVrachHistDAO spisokVrachHistRepository;
-
+    
     public List<Sertif> getSertifAll() {
         return sertifRepository.getAllSertif();
     }
-
-    public void InsertSpisokVrachHist(SpisokVrachHist value) {
+    
+    public void insertSpisokVrachHist(SpisokVrachHist value) {
         spisokVrachHistRepository.save(value);
     }
-
-    public void UpdateSpisokVrach(List<SpisokVrach> list) {
+    
+    public void updateSpisokVrach(List<SpisokVrach> list) {
         for (SpisokVrach x : list) {
             spisokVrachRepository.update(x);
         }
+        
+    }
 
+    public void insertSertificate(Sertif value) {
+        
+        sertifRepository.save(value);
     }
     
-    
-    public void UpdateSertificates(List<Sertif> list) {
+    public void updateSertificates(List<Sertif> list) {
         for (Sertif x : list) {
             sertifRepository.update(x);
         }
-
+        
     }
     
-
     public List<SpisokVrach> getSpisokVrach() {
         return spisokVrachRepository.getAllSpisokVrach();
     }
-
+    
     public List<SkV015> getSpisokSkV015() {
         return spisokSkV015Repository.getAllSkV015();
     }
-
+    
     public boolean InsertSpisokVrach(SpisokVrach value) {
         spisokVrachRepository.save(value);
         return true;
     }
-
+    
 }

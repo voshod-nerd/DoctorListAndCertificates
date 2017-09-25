@@ -212,7 +212,7 @@ public class EditSertificateJDialog extends javax.swing.JDialog implements SetGe
             
             List<Sertif> list= new ArrayList<>();
             list.add(sertificate);
-            hiber.UpdateSertificates(list);
+            hiber.updateSertificates(list);
             dispose();
         }
     }//GEN-LAST:event_jButton3MouseClicked

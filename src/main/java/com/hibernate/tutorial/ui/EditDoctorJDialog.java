@@ -288,7 +288,7 @@ public class EditDoctorJDialog extends javax.swing.JDialog {
 
             List<SpisokVrach> list = new ArrayList<>();
             list.add(doctor);
-            hiber.UpdateSpisokVrach(list);
+            hiber.updateSpisokVrach(list);
             SpisokVrachHist oldDoctor = new SpisokVrachHist();
             oldDoctor.setIddokt(frame.getSelectedDoctor().getIddokt());
             oldDoctor.setLpukod(frame.getSelectedDoctor().getLpukod());
@@ -301,7 +301,7 @@ public class EditDoctorJDialog extends javax.swing.JDialog {
             oldDoctor.setPrvs(frame.getSelectedDoctor().getPrvs());
             oldDoctor.setDateVn(frame.getSelectedDoctor().getDateVn());
             oldDoctor.setDateUv(frame.getSelectedDoctor().getDateUv());
-            hiber.InsertSpisokVrachHist(oldDoctor);
+            hiber.insertSpisokVrachHist(oldDoctor);
             
             frame.UpdateTableSpisokVrach();
             this.dispose();

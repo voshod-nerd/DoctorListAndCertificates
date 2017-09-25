@@ -5,6 +5,7 @@
  */
 package com.hibernate.tutorial.ui.listener;
 
+import com.hibernate.tutorial.app.interfaces.ObserverChangeDatabaseContent;
 import com.hibernate.tutorial.ui.AddCertificateJDialog;
 import com.hibernate.tutorial.ui.MainFrame;
 import java.awt.event.MouseAdapter;
@@ -25,6 +26,7 @@ public class JAddSertificateMouseListener  extends MouseAdapter {
     @Override
     public void mousePressed(MouseEvent me) {
         AddCertificateJDialog jdialog =new AddCertificateJDialog(getFrame(),true);
+         jdialog.addObserver((ObserverChangeDatabaseContent)getFrame());
                     jdialog.setVisible(true);
     
     }
