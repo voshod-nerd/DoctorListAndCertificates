@@ -5,6 +5,8 @@
  */
 package com.hibernate.tutorial.ui;
 
+import com.hibernate.tutorial.app.interfaces.ObservableChangeDatabaseContent;
+import com.hibernate.tutorial.app.interfaces.ObserverChangeDatabaseContent;
 import com.hibernate.tutorial.config.SpringContext;
 import com.hibernate.tutorial.entity.SpisokVrach;
 import com.hibernate.tutorial.entity.SpisokVrachHist;
@@ -20,7 +22,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  *
  * @author
  */
-public class EditDoctorJDialog extends javax.swing.JDialog {
+public class EditDoctorJDialog extends javax.swing.JDialog implements ObservableChangeDatabaseContent {
 
     /**
      * Creates new form EditDoctorJDialog
@@ -29,6 +31,7 @@ public class EditDoctorJDialog extends javax.swing.JDialog {
     private HibernateMain hiber;
     private ApplicationContext context;
     private MainFrame frame;
+    private ObserverChangeDatabaseContent observer;
 
     public EditDoctorJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -108,7 +111,6 @@ public class EditDoctorJDialog extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jExitButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -154,11 +156,9 @@ public class EditDoctorJDialog extends javax.swing.JDialog {
                 jButton1MouseClicked(evt);
             }
         });
-
-        jExitButton.setText("Закрыть");
-        jExitButton.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jExitButtonActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -195,8 +195,7 @@ public class EditDoctorJDialog extends javax.swing.JDialog {
                                 .addComponent(jCheckBox1, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
                                 .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jLabel8)
-                            .addComponent(jLabel9)))
-                    .addComponent(jExitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel9))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -245,9 +244,7 @@ public class EditDoctorJDialog extends javax.swing.JDialog {
                 .addComponent(jTextFieldOt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jExitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -304,6 +301,7 @@ public class EditDoctorJDialog extends javax.swing.JDialog {
             hiber.insertSpisokVrachHist(oldDoctor);
             
             frame.UpdateTableSpisokVrach();
+            this.notifyObserverChangeDatabaseContent();
             this.dispose();
         } else {
             JFrame frame = new JFrame("Сообщение");
@@ -312,14 +310,14 @@ public class EditDoctorJDialog extends javax.swing.JDialog {
             );
 
         }
+        
 
 
     }//GEN-LAST:event_jButton1MouseClicked
 
-    private void jExitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jExitButtonActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        dispose();
-    }//GEN-LAST:event_jExitButtonActionPerformed
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -368,7 +366,6 @@ public class EditDoctorJDialog extends javax.swing.JDialog {
     private javax.swing.JCheckBox jCheckBox1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
-    private javax.swing.JButton jExitButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -399,5 +396,15 @@ public class EditDoctorJDialog extends javax.swing.JDialog {
      */
     public void setDoctor(SpisokVrach doctor) {
         this.doctor = doctor;
+    }
+
+    @Override
+    public void notifyObserverChangeDatabaseContent() {
+      observer.handleEventChageDatabaseContent();
+    }
+
+    @Override
+    public void addObserver(ObserverChangeDatabaseContent observer) {
+        this.observer=observer;
     }
 }

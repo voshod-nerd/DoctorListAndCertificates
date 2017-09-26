@@ -34,6 +34,7 @@ public class ListSertificatesMouseTableListener extends MouseAdapter {
                 int row = table.rowAtPoint(p);
                 if (me.getClickCount() == 2) {
                     EditSertificateJDialog jdialog =new EditSertificateJDialog(getFrame(),true);
+                    jdialog.addObserver(getFrame());
                     jdialog.setVisible(true);
                 }
     

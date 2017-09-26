@@ -13,6 +13,7 @@ import com.hibernate.tutorial.entity.SpisokVrach;
 import com.hibernate.tutorial.service.HibernateMain;
 import com.hibernate.tutorial.ui.listener.JAddDoctorMouseListener;
 import com.hibernate.tutorial.ui.listener.JAddSertificateMouseListener;
+import com.hibernate.tutorial.ui.listener.JCreateXmlMouseListener;
 import com.hibernate.tutorial.ui.model.SerificateTableModel;
 import com.hibernate.tutorial.ui.model.SpisokVrachTableModel;
 import com.hibernate.tutorial.ui.listener.ListDoctorsMouseTableListener;
@@ -72,15 +73,15 @@ public class MainFrame extends javax.swing.JFrame implements ObserverChangeDatab
         context = new AnnotationConfigApplicationContext(SpringContext.class);
         hiber = (HibernateMain) context.getBean("HibernateMain");
 
-        doctorTableModel = new SpisokVrachTableModel(hiber.getSpisokVrach());
-        tblSpisokVrach = new JTable(doctorTableModel);
-        sertificateTableModel = new SerificateTableModel(hiber.getSertifAll());
-        tblSertif = new JTable(sertificateTableModel);
+        setDoctorTableModel(new SpisokVrachTableModel(hiber.getSpisokVrach()));
+        tblSpisokVrach = new JTable(getDoctorTableModel());
+        setSertificateTableModel(new SerificateTableModel(hiber.getSertifAll()));
+        tblSertif = new JTable(getSertificateTableModel());
 
         //Create a table with a sorter.
-        sorterVr = new TableRowSorter<>((SpisokVrachTableModel) doctorTableModel);
+        sorterVr = new TableRowSorter<>((SpisokVrachTableModel) getDoctorTableModel());
         tblSpisokVrach.setRowSorter(sorterVr);
-        sorterSertif = new TableRowSorter<>((SerificateTableModel) sertificateTableModel);
+        sorterSertif = new TableRowSorter<>((SerificateTableModel) getSertificateTableModel());
         tblSertif.setRowSorter(sorterSertif);
 
         tblSpisokVrach.setSize(new Dimension(900, 150));
@@ -105,10 +106,10 @@ public class MainFrame extends javax.swing.JFrame implements ObserverChangeDatab
         jMenu1.add(jMenuItem1);
         jMenu1.add(jMenuItem3);
         jMenu1.add(jMenuItem2);
-       
 
         jMenuItem1.addMouseListener(new JAddDoctorMouseListener(this));
         jMenuItem3.addMouseListener(new JAddSertificateMouseListener(this));
+        jMenuItem2.addMouseListener(new JCreateXmlMouseListener(this));
 
         filterText = new JTextField();
         //Whenever filterText changes, invoke newFilter.
@@ -162,7 +163,7 @@ public class MainFrame extends javax.swing.JFrame implements ObserverChangeDatab
                 } else {
                     int modelRow = tblSpisokVrach.convertRowIndexToModel(viewRow);
                     SpisokVrachTableModel model;
-                    model = (SpisokVrachTableModel) doctorTableModel;
+                    model = (SpisokVrachTableModel) getDoctorTableModel();
 
                     SpisokVrach value = model.getRowByIndex(modelRow);
                     setSelectedDoctor(value);
@@ -181,7 +182,7 @@ public class MainFrame extends javax.swing.JFrame implements ObserverChangeDatab
                 } else {
                     int modelRow = tblSertif.convertRowIndexToModel(viewRow);
                     SerificateTableModel model;
-                    model = (SerificateTableModel) sertificateTableModel;
+                    model = (SerificateTableModel) getSertificateTableModel();
 
                     Sertif value = model.getRowByIndex(modelRow);
                     setSelectedSertificate(value);
@@ -220,8 +221,8 @@ public class MainFrame extends javax.swing.JFrame implements ObserverChangeDatab
     }
 
     public void UpdateTableSpisokVrach() {
-        doctorTableModel.setListDoctors(hiber.getSpisokVrach());
-        doctorTableModel.fireTableDataChanged();
+        getDoctorTableModel().setListDoctors(hiber.getSpisokVrach());
+        getDoctorTableModel().fireTableDataChanged();
 
     }
 
@@ -344,9 +345,37 @@ public class MainFrame extends javax.swing.JFrame implements ObserverChangeDatab
 
     @Override
     public void handleEventChageDatabaseContent() {
-       doctorTableModel.setListDoctors(hiber.getSpisokVrach());
-       sertificateTableModel.setListSertificates(hiber.getSertifAll());
-       tblSpisokVrach.updateUI();
-       tblSertif.updateUI();;
+        getDoctorTableModel().setListDoctors(hiber.getSpisokVrach());
+        getSertificateTableModel().setListSertificates(hiber.getSertifAll());
+        tblSpisokVrach.updateUI();
+        tblSertif.updateUI();;
+    }
+
+    /**
+     * @param doctorTableModel the doctorTableModel to set
+     */
+    public void setDoctorTableModel(SpisokVrachTableModel doctorTableModel) {
+        this.doctorTableModel = doctorTableModel;
+    }
+
+    /**
+     * @param sertificateTableModel the sertificateTableModel to set
+     */
+    public void setSertificateTableModel(SerificateTableModel sertificateTableModel) {
+        this.sertificateTableModel = sertificateTableModel;
+    }
+
+    /**
+     * @return the doctorTableModel
+     */
+    public SpisokVrachTableModel getDoctorTableModel() {
+        return doctorTableModel;
+    }
+
+    /**
+     * @return the sertificateTableModel
+     */
+    public SerificateTableModel getSertificateTableModel() {
+        return sertificateTableModel;
     }
 }

@@ -5,6 +5,8 @@
  */
 package com.hibernate.tutorial.ui;
 
+import com.hibernate.tutorial.app.interfaces.ObservableChangeDatabaseContent;
+import com.hibernate.tutorial.app.interfaces.ObserverChangeDatabaseContent;
 import com.hibernate.tutorial.app.interfaces.SetGetSkv015;
 import com.hibernate.tutorial.entity.Sertif;
 import com.hibernate.tutorial.entity.SkV015;
@@ -24,7 +26,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  *
  * @author Талалаев
  */
-public class EditSertificateJDialog extends javax.swing.JDialog implements SetGetSkv015, SetGetDoctor {
+public class EditSertificateJDialog extends javax.swing.JDialog implements SetGetSkv015, SetGetDoctor,ObservableChangeDatabaseContent {
 
     /**
      * Creates new form ChangeSertifJDialog
@@ -36,6 +38,7 @@ public class EditSertificateJDialog extends javax.swing.JDialog implements SetGe
     private final ApplicationContext context;
     private final HibernateMain hiber;
     private PrvsTableModel tablemodel;
+    private ObserverChangeDatabaseContent observer;
 
     public EditSertificateJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -213,6 +216,7 @@ public class EditSertificateJDialog extends javax.swing.JDialog implements SetGe
             List<Sertif> list= new ArrayList<>();
             list.add(sertificate);
             hiber.updateSertificates(list);
+            this.notifyObserverChangeDatabaseContent();
             dispose();
         }
     }//GEN-LAST:event_jButton3MouseClicked
@@ -299,5 +303,15 @@ public class EditSertificateJDialog extends javax.swing.JDialog implements SetGe
     @Override
     public SpisokVrach getChosenDoctor() {
         return this.doctor;
+    }
+
+    @Override
+    public void notifyObserverChangeDatabaseContent() {
+       this.observer.handleEventChageDatabaseContent();
+    }
+
+    @Override
+    public void addObserver(ObserverChangeDatabaseContent observer) {
+       this.observer = observer;
     }
 }

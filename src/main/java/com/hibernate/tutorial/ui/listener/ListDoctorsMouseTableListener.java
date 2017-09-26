@@ -36,6 +36,7 @@ public class ListDoctorsMouseTableListener extends MouseAdapter {
                 int row = table.rowAtPoint(p);
                 if (me.getClickCount() == 2) {
                     EditDoctorJDialog jdialog =new EditDoctorJDialog(getFrame(),true);
+                     jdialog.addObserver(getFrame());
                     jdialog.setVisible(true);
                 }
     

@@ -1,0 +1,31 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="packet">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="ZAP" maxOccurs="unbounded" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:short" name="N_ZAP"/>
+              <xs:element type="xs:int" name="IDDOCT"/>
+              <xs:element type="xs:string" name="LPUKOD"/>
+              <xs:element type="xs:string" name="FAM"/>
+              <xs:element type="xs:string" name="IM"/>
+              <xs:element type="xs:string" name="OT"/>
+              <xs:element type="xs:byte" name="DOKT"/>
+              <xs:element name="SERTIF" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="N_SERT"/>
+                    <xs:element type="xs:string" name="REG_NUM"/>
+                    <xs:element type="xs:string" name="DATE_END"/>
+                    <xs:element type="xs:short" name="PRVS"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
