@@ -108,10 +108,10 @@ public class SerificateTableModel  extends AbstractTableModel {
             case 2:
                 return sertif.getDateEnd();
             case 3:
-                return sertif.getPrvs().getName();
+                return sertif.getPrvs()!=null ? sertif.getPrvs().getName():"";
            
             case 4:
-                return sertif.getIddokt().getIddokt();
+                return  sertif.getIddokt().getIddokt();
             case 5:
                 return sertif.getDateadd();
             case 6:

@@ -74,14 +74,14 @@ public class MainFrame extends javax.swing.JFrame implements ObserverChangeDatab
         hiber = (HibernateMain) context.getBean("HibernateMain");
 
         setDoctorTableModel(new SpisokVrachTableModel(hiber.getSpisokVrach()));
-        tblSpisokVrach = new JTable(getDoctorTableModel());
+        tblSpisokVrach = new JTable(doctorTableModel);
         setSertificateTableModel(new SerificateTableModel(hiber.getSertifAll()));
-        tblSertif = new JTable(getSertificateTableModel());
+        tblSertif = new JTable(sertificateTableModel);
 
         //Create a table with a sorter.
-        sorterVr = new TableRowSorter<>((SpisokVrachTableModel) getDoctorTableModel());
+        sorterVr = new TableRowSorter<>((SpisokVrachTableModel) doctorTableModel);
         tblSpisokVrach.setRowSorter(sorterVr);
-        sorterSertif = new TableRowSorter<>((SerificateTableModel) getSertificateTableModel());
+        sorterSertif = new TableRowSorter<>((SerificateTableModel) sertificateTableModel);
         tblSertif.setRowSorter(sorterSertif);
 
         tblSpisokVrach.setSize(new Dimension(900, 150));
@@ -163,7 +163,7 @@ public class MainFrame extends javax.swing.JFrame implements ObserverChangeDatab
                 } else {
                     int modelRow = tblSpisokVrach.convertRowIndexToModel(viewRow);
                     SpisokVrachTableModel model;
-                    model = (SpisokVrachTableModel) getDoctorTableModel();
+                    model = (SpisokVrachTableModel) doctorTableModel;
 
                     SpisokVrach value = model.getRowByIndex(modelRow);
                     setSelectedDoctor(value);
@@ -182,7 +182,7 @@ public class MainFrame extends javax.swing.JFrame implements ObserverChangeDatab
                 } else {
                     int modelRow = tblSertif.convertRowIndexToModel(viewRow);
                     SerificateTableModel model;
-                    model = (SerificateTableModel) getSertificateTableModel();
+                    model = (SerificateTableModel) sertificateTableModel;
 
                     Sertif value = model.getRowByIndex(modelRow);
                     setSelectedSertificate(value);
@@ -221,8 +221,8 @@ public class MainFrame extends javax.swing.JFrame implements ObserverChangeDatab
     }
 
     public void UpdateTableSpisokVrach() {
-        getDoctorTableModel().setListDoctors(hiber.getSpisokVrach());
-        getDoctorTableModel().fireTableDataChanged();
+        doctorTableModel.setListDoctors(hiber.getSpisokVrach());
+        sertificateTableModel.fireTableDataChanged();
 
     }
 
@@ -345,8 +345,8 @@ public class MainFrame extends javax.swing.JFrame implements ObserverChangeDatab
 
     @Override
     public void handleEventChageDatabaseContent() {
-        getDoctorTableModel().setListDoctors(hiber.getSpisokVrach());
-        getSertificateTableModel().setListSertificates(hiber.getSertifAll());
+        doctorTableModel.setListDoctors(hiber.getSpisokVrach());
+        sertificateTableModel.setListSertificates(hiber.getSertifAll());
         tblSpisokVrach.updateUI();
         tblSertif.updateUI();;
     }
@@ -365,17 +365,5 @@ public class MainFrame extends javax.swing.JFrame implements ObserverChangeDatab
         this.sertificateTableModel = sertificateTableModel;
     }
 
-    /**
-     * @return the doctorTableModel
-     */
-    public SpisokVrachTableModel getDoctorTableModel() {
-        return doctorTableModel;
-    }
-
-    /**
-     * @return the sertificateTableModel
-     */
-    public SerificateTableModel getSertificateTableModel() {
-        return sertificateTableModel;
-    }
+    
 }

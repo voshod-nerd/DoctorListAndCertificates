@@ -54,12 +54,12 @@ public class Sertif implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @JoinColumn(name = "IDDOKT", referencedColumnName = "IDDOKT")
-    @ManyToOne
-    private SpisokVrach iddokt;
     @JoinColumn(name = "PRVS", referencedColumnName = "RECID")
     @ManyToOne
     private SkV015 prvs;
+    @JoinColumn(name = "IDDOKT", referencedColumnName = "IDDOKT")
+    @ManyToOne
+    private SpisokVrach iddokt;
 
     public Sertif() {
     }
@@ -108,20 +108,20 @@ public class Sertif implements Serializable {
         this.id = id;
     }
 
-    public SpisokVrach getIddokt() {
-        return iddokt;
-    }
-
-    public void setIddokt(SpisokVrach iddokt) {
-        this.iddokt = iddokt;
-    }
-
     public SkV015 getPrvs() {
         return prvs;
     }
 
     public void setPrvs(SkV015 prvs) {
         this.prvs = prvs;
+    }
+
+    public SpisokVrach getIddokt() {
+        return iddokt;
+    }
+
+    public void setIddokt(SpisokVrach iddokt) {
+        this.iddokt = iddokt;
     }
 
     @Override

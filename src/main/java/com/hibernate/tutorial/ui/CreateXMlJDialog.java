@@ -5,11 +5,21 @@
  */
 package com.hibernate.tutorial.ui;
 
+import com.hibernate.tutorial.app.xml.CreateXmlByXSD;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.xml.bind.JAXBException;
+
 /**
  *
  * @author Талалаев
  */
 public class CreateXMlJDialog extends javax.swing.JDialog {
+
+    JFileChooser chooser;
 
     /**
      * Creates new form CreateXMlJDialog
@@ -66,6 +76,42 @@ public class CreateXMlJDialog extends javax.swing.JDialog {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
+        try {
+           /* chooser = new JFileChooser();
+            chooser.setCurrentDirectory(new java.io.File("."));
+            chooser.setDialogTitle("Выберете директорию для сохранения файла");
+             */
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Specify a file to save");
+
+            int userSelection = fileChooser.showSaveDialog(this);
+            File fileToSave=null;
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+              fileToSave=   fileChooser.getSelectedFile();
+                System.out.println(fileToSave.getAbsolutePath() + "Save as file: ");
+            }
+            /*
+            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            chooser.setAcceptAllFileFilterUsed(false);
+            if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+                System.out.println("getCurrentDirectory(): "
+                        + chooser.getCurrentDirectory());
+                System.out.println("getSelectedFile() : "
+                        + chooser.getSelectedFile());
+            } else {
+                System.out.println("No Selection ");
+            }
+            */
+
+            CreateXmlByXSD xml = new CreateXmlByXSD();
+           // System.out.println(chooser.getCurrentDirectory() + "\\out.xml");
+            xml.createXml(jDateChooser1.getDate(), fileToSave.getAbsolutePath() + "\\out.xml");
+        } catch (JAXBException ex) {
+            Logger.getLogger(CreateXMlJDialog.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(CreateXMlJDialog.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         this.dispose();
     }//GEN-LAST:event_jButton1MouseClicked
 

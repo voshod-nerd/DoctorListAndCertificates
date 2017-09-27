@@ -52,10 +52,10 @@ public class SkV015 implements Serializable {
     private String name;
     @Basic(optional = false)
     @Column(name = "HIGH")
-    private short high;
+    private Short high;
     @Basic(optional = false)
     @Column(name = "OKSO")
-    private short okso;
+    private Short okso;
     @Basic(optional = false)
     @Column(name = "DATEBEG")
     @Temporal(TemporalType.DATE)
@@ -114,15 +114,15 @@ public class SkV015 implements Serializable {
         return high;
     }
 
-    public void setHigh(short high) {
+    public void setHigh(Short high) {
         this.high = high;
     }
 
-    public short getOkso() {
+    public Short getOkso() {
         return okso;
     }
 
-    public void setOkso(short okso) {
+    public void setOkso(Short okso) {
         this.okso = okso;
     }
 

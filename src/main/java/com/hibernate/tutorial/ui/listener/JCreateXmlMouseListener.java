@@ -17,6 +17,7 @@ import java.awt.event.MouseEvent;
 public class JCreateXmlMouseListener extends MouseAdapter {
 
     private MainFrame frame;
+    
 
     public JCreateXmlMouseListener(MainFrame fr) {
         this.frame = fr;
@@ -26,7 +27,7 @@ public class JCreateXmlMouseListener extends MouseAdapter {
     public void mousePressed(MouseEvent me) {
 
         CreateXMlJDialog jdialog = new CreateXMlJDialog(getFrame(), true);
-        //frame.getDoctorTableModel().g
+       
         jdialog.setVisible(true);
 
     }

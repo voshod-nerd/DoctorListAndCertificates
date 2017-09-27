@@ -142,7 +142,7 @@ public class SpisokVrachTableModel extends AbstractTableModel {
             case 7:
                 return doctor.getDokt();
             case 8:
-                return doctor.getPrvs().getName();
+                return  doctor.getPrvs()!=null ?  doctor.getPrvs().getName():"";
             case 9:
                 return doctor.getDateVn();
             case 10:
