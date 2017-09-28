@@ -8,6 +8,8 @@ package com.hibernate.tutorial.ui;
 import com.hibernate.tutorial.app.xml.CreateXmlByXSD;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -77,11 +79,13 @@ public class CreateXMlJDialog extends javax.swing.JDialog {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         try {
-           /* chooser = new JFileChooser();
+            chooser = new JFileChooser();
             chooser.setCurrentDirectory(new java.io.File("."));
             chooser.setDialogTitle("Выберете директорию для сохранения файла");
-             */
-            JFileChooser fileChooser = new JFileChooser();
+            chooser.setSelectedFile(new File("fileToSave.xml"));
+            chooser.setName("fileToSave.xml");
+           
+           /*JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Specify a file to save");
 
             int userSelection = fileChooser.showSaveDialog(this);
@@ -90,10 +94,11 @@ public class CreateXMlJDialog extends javax.swing.JDialog {
               fileToSave=   fileChooser.getSelectedFile();
                 System.out.println(fileToSave.getAbsolutePath() + "Save as file: ");
             }
-            /*
+            */
+            
             chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             chooser.setAcceptAllFileFilterUsed(false);
-            if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
                 System.out.println("getCurrentDirectory(): "
                         + chooser.getCurrentDirectory());
                 System.out.println("getSelectedFile() : "
@@ -101,11 +106,12 @@ public class CreateXMlJDialog extends javax.swing.JDialog {
             } else {
                 System.out.println("No Selection ");
             }
-            */
-
+            
+           
             CreateXmlByXSD xml = new CreateXmlByXSD();
-           // System.out.println(chooser.getCurrentDirectory() + "\\out.xml");
-            xml.createXml(jDateChooser1.getDate(), fileToSave.getAbsolutePath() + "\\out.xml");
+            DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+            
+            xml.createXml(jDateChooser1.getDate(),chooser.getSelectedFile().getAbsolutePath() + "\\Врачи и сертификаты_"+df.format(jDateChooser1.getDate())+".xml");
         } catch (JAXBException ex) {
             Logger.getLogger(CreateXMlJDialog.class.getName()).log(Level.SEVERE, null, ex);
         } catch (FileNotFoundException ex) {
