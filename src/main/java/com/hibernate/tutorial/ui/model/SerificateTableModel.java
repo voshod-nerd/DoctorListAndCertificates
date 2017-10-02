@@ -19,14 +19,13 @@ import javax.swing.table.TableModel;
  *
  * @author Талалаев
  */
-public class SerificateTableModel  extends AbstractTableModel {
+public class SerificateTableModel extends AbstractTableModel {
 
     private Set<TableModelListener> listeners = new HashSet<TableModelListener>();
 
     private List<Sertif> listSertificates;
-    
-    
-     public SerificateTableModel(List<Sertif> listSertif) {
+
+    public SerificateTableModel(List<Sertif> listSertif) {
         super();
         this.listSertificates = listSertif;
     }
@@ -40,13 +39,11 @@ public class SerificateTableModel  extends AbstractTableModel {
     public int getColumnCount() {
         return 7;
     }
-    
-      public Sertif getRowByIndex(int rowIndex) {
+
+    public Sertif getRowByIndex(int rowIndex) {
         return getListSertificates().get(rowIndex);
 
     }
-    
-    
 
     @Override
     public String getColumnName(int columnIndex) {
@@ -59,12 +56,14 @@ public class SerificateTableModel  extends AbstractTableModel {
                 return "Дата окончания";
             case 3:
                 return "Специальность";
-            
             case 4:
-                return "Принадлежность";
+                return "Специальность(код)";
+
             case 5:
-                return "Дата добавления";
+                return "Принадлежность";
             case 6:
+                return "Дата добавления";
+            case 7:
                 return "ID";
 
         }
@@ -81,13 +80,15 @@ public class SerificateTableModel  extends AbstractTableModel {
             case 2:
                 return Date.class;
             case 3:
-                return Integer.class;
-          
+                return String.class;
             case 4:
                 return Integer.class;
+
             case 5:
-                return Date.class;
+                return Integer.class;
             case 6:
+                return Date.class;
+            case 7:
                 return Integer.class;
         }
         return Object.class;
@@ -95,11 +96,11 @@ public class SerificateTableModel  extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-       return false;
+        return false;
     }
 
     public Object getValueAt(int rowIndex, int columnIndex) {
-       Sertif sertif = getListSertificates().get(rowIndex);
+        Sertif sertif = getListSertificates().get(rowIndex);
         switch (columnIndex) {
             case 0:
                 return sertif.getNSert();
@@ -108,13 +109,15 @@ public class SerificateTableModel  extends AbstractTableModel {
             case 2:
                 return sertif.getDateEnd();
             case 3:
-                return sertif.getPrvs()!=null ? sertif.getPrvs().getName():"";
-           
+                return sertif.getPrvs() != null ? sertif.getPrvs().getName() : "";
             case 4:
-                return  sertif.getIddokt().getIddokt();
+                return sertif.getPrvs() != null ? sertif.getPrvs().getCode() : "";
+
             case 5:
-                return sertif.getDateadd();
+                return sertif.getIddokt().getIddokt();
             case 6:
+                return sertif.getDateadd();
+            case 7:
                 return sertif.getId();
         }
         return Object.class;
@@ -122,7 +125,7 @@ public class SerificateTableModel  extends AbstractTableModel {
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        
+
     }
 
     @Override
@@ -132,7 +135,7 @@ public class SerificateTableModel  extends AbstractTableModel {
 
     @Override
     public void removeTableModelListener(TableModelListener listener) {
-       listeners.remove(listener);
+        listeners.remove(listener);
     }
 
     /**
