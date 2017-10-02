@@ -155,6 +155,7 @@ public class MainFrame extends javax.swing.JFrame implements ObserverChangeDatab
         //When selection changes, provide user with row numbers for
         //both view and model.
         tblSpisokVrach.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
             public void valueChanged(ListSelectionEvent event) {
                 int viewRow = tblSpisokVrach.getSelectedRow();
                 if (viewRow < 0) {
@@ -172,7 +173,7 @@ public class MainFrame extends javax.swing.JFrame implements ObserverChangeDatab
             }
         }
         );
-        // selection ome of list of certificate 
+        // selection one of list of certificate 
         tblSertif.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
                 int viewRow = tblSertif.getSelectedRow();
@@ -209,7 +210,7 @@ public class MainFrame extends javax.swing.JFrame implements ObserverChangeDatab
         RowFilter<SerificateTableModel, Object> rf = null;
 
         try {
-            rf = RowFilter.regexFilter(value.getIddokt().toString(), 4);
+            rf = RowFilter.regexFilter(value.getIddokt().toString(), 5);
         } catch (java.util.regex.PatternSyntaxException e) {
             return;
         }
