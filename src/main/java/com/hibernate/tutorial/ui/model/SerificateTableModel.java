@@ -21,7 +21,7 @@ import javax.swing.table.TableModel;
  */
 public class SerificateTableModel extends AbstractTableModel {
 
-    private Set<TableModelListener> listeners = new HashSet<TableModelListener>();
+    private Set<TableModelListener> listeners = new HashSet<>();
 
     private List<Sertif> listSertificates;
 

@@ -46,7 +46,7 @@ public class SkV015 implements Serializable {
     private Short recid;
     @Basic(optional = false)
     @Column(name = "CODE")
-    private short code;
+    private Short code;
     @Basic(optional = false)
     @Column(name = "NAME")
     private String name;
@@ -98,7 +98,7 @@ public class SkV015 implements Serializable {
         return code;
     }
 
-    public void setCode(short code) {
+    public void setCode(Short code) {
         this.code = code;
     }
 
@@ -110,7 +110,7 @@ public class SkV015 implements Serializable {
         this.name = name;
     }
 
-    public short getHigh() {
+    public Short getHigh() {
         return high;
     }
 

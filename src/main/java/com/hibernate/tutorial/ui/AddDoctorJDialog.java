@@ -12,6 +12,7 @@ import com.hibernate.tutorial.config.SpringContext;
 import com.hibernate.tutorial.entity.SkV015;
 import com.hibernate.tutorial.entity.SpisokVrach;
 import com.hibernate.tutorial.service.HibernateMain;
+import java.util.Date;
 
 import java.util.List;
 import javax.swing.JComboBox;
@@ -65,7 +66,7 @@ public class AddDoctorJDialog extends javax.swing.JDialog implements ObservableC
         jLabel3 = new javax.swing.JLabel();
         jPodrTextField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jPodrTextFiield = new javax.swing.JTextField();
+        jOtdTextFiield = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jFamTextField = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -146,7 +147,7 @@ public class AddDoctorJDialog extends javax.swing.JDialog implements ObservableC
                     .addComponent(jOtTextField, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jImTextField, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jFamTextField, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPodrTextFiield, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jOtdTextFiield, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPodrTextField, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLpuTextField, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jIdDoctTextField, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -188,7 +189,7 @@ public class AddDoctorJDialog extends javax.swing.JDialog implements ObservableC
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
                 .addGap(7, 7, 7)
-                .addComponent(jPodrTextFiield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jOtdTextFiield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -224,10 +225,12 @@ public class AddDoctorJDialog extends javax.swing.JDialog implements ObservableC
             if (!jIdDoctTextField.getText().isEmpty()) {
                 vrach.setIddokt(Integer.parseInt(jIdDoctTextField.getText()));
             }
-
+             
+            try {
             if (!jIdDoctTextField.getText().isEmpty()) {
-                vrach.setIdOtd(Integer.parseInt(jIdDoctTextField.getText()));
+                vrach.setIdOtd(Integer.parseInt(jOtdTextFiield.getText()));
             }
+            } catch (Exception e) {System.out.println(e.fillInStackTrace());}
 
             if (!jLpuTextField.getText().isEmpty()) {
                 vrach.setLpukod(Integer.parseInt(jLpuTextField.getText()));
@@ -236,11 +239,12 @@ public class AddDoctorJDialog extends javax.swing.JDialog implements ObservableC
             vrach.setFam(jFamTextField.getText());
             vrach.setIm(jImTextField.getText());
 
-            if (!jOtTextField.getText().equals("")) {
+            if (!jOtTextField.getText().isEmpty()) {
                 vrach.setOt(jOtTextField.getText());
             }
 
             vrach.setDokt(jDoctCheckBox.isSelected());
+            vrach.setDateVn(new Date());
             
             if (getChosenPrvs()!= null) {
             vrach.setPrvs(getChosenPrvs());}
@@ -332,8 +336,8 @@ public class AddDoctorJDialog extends javax.swing.JDialog implements ObservableC
     private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField jLpuTextField;
     private javax.swing.JTextField jOtTextField;
+    private javax.swing.JTextField jOtdTextFiield;
     private javax.swing.JTextField jPodrTextField;
-    private javax.swing.JTextField jPodrTextFiield;
     private javax.swing.JButton jSaveButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

@@ -49,7 +49,7 @@ public class PrvsTableModel extends AbstractTableModel {
             case 0:
                 return "номер";
             case 1:
-                return "код специалиста";
+                return "код специальности";
             case 2:
                 return "название";
             case 3:
@@ -108,10 +108,10 @@ public class PrvsTableModel extends AbstractTableModel {
             case 2:
                 return prvs.getName();
             case 3:
-                return prvs.getHigh();
+                return prvs.getHigh()!=null ? prvs.getHigh():"";
 
             case 4:
-                return prvs.getOkso();
+                return prvs.getOkso()!=null ? prvs.getOkso(): "";
             case 5:
                 return prvs.getDatebeg();
             case 6:

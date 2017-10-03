@@ -67,7 +67,7 @@
                   <Component id="jOtTextField" alignment="1" max="32767" attributes="0"/>
                   <Component id="jImTextField" alignment="1" max="32767" attributes="0"/>
                   <Component id="jFamTextField" alignment="1" max="32767" attributes="0"/>
-                  <Component id="jPodrTextFiield" alignment="1" max="32767" attributes="0"/>
+                  <Component id="jOtdTextFiield" alignment="1" max="32767" attributes="0"/>
                   <Component id="jPodrTextField" alignment="1" max="32767" attributes="0"/>
                   <Component id="jLpuTextField" alignment="1" max="32767" attributes="0"/>
                   <Component id="jIdDoctTextField" alignment="1" max="32767" attributes="0"/>
@@ -114,7 +114,7 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
-              <Component id="jPodrTextFiield" min="-2" max="-2" attributes="0"/>
+              <Component id="jOtdTextFiield" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -170,7 +170,7 @@
         <Property name="text" type="java.lang.String" value="&#x41e;&#x442;&#x434;&#x435;&#x43b;&#x435;&#x43d;&#x438;&#x435;"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jPodrTextFiield">
+    <Component class="javax.swing.JTextField" name="jOtdTextFiield">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
